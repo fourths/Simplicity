@@ -840,4 +840,13 @@ class Sound{
     player.pause();
     player.rewind();
   }
+  
+  //TEMPORARY.. need to use array so it automatically does it somehow
+  void Close(){
+    player.close(); 
+  }
+  
+  //explodingart.com/soundcipher
+  //implement with scratch soundbank.gm in /static/ of scratchr for different sounds?
+  //possibly use other library and try to get sounds from squeak?
 }
