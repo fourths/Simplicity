@@ -455,12 +455,20 @@ class Sprite {
   void SwitchToCostume(int newCost){
     costNo = newCost; 
   }
+  void SwitchToCostume(float newCost){
+    costNo = int(newCost); 
+  }
   void SwitchToCostume(Variable newCost){
     costNo = int(newCost.toString()); 
   }
   
   void NextCostume(){
-    costNo++;
+    if (CostumeNumber()+1>=costumes.size()) SwitchToCostume(0);
+    else costNo++;
+  }
+  
+  void AddCostume(String im){
+    costumes.add(new Costume(im)); 
   }
   
   int CostumeNumber(){
@@ -534,7 +542,6 @@ class Sprite {
   }
   
   //SOUND CLASS
-  //needs tonna work.. use minim (javadoc probs .. code.compartmental.net/minim/javadoc) happy coding
   class Sound{
     AudioPlayer player;
     Sound(String sndlnk){
@@ -785,20 +792,20 @@ class Stage{
   }
   
   void NextBackground(){
-    if (BackgroundNumber()+1>=backgrounds.size()) SetBackgroundTo(0);
+    if (BackgroundNumber()+1>=backgrounds.size()) SwitchToBackground(0);
     else bckNo++;
   }
   
-  void SetBackgroundTo(int newbck){
+  void SwitchToBackground(int newbck){
     bckNo = newbck;
   }
-  void SetBackgroundTo(float newbck){
+  void SwitchToBackground(float newbck){
     bckNo = int(newbck);
   }
-  void SetBackgroundTo(String newbck){
+  void SwitchToBackground(String newbck){
     bckNo = int(newbck);
   }
-  void SetBackgroundTo(Variable newbck){
+  void SwitchToBackground(Variable newbck){
     bckNo = int(newbck.value.toString());
   }
   
