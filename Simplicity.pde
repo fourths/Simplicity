@@ -540,21 +540,6 @@ class Sprite {
       height = img.height;
     }
   }
-  
-  //SOUND CLASS
-  class Sound{
-    AudioPlayer player;
-    Sound(String sndlnk){
-      player = minim.loadFile(sndlnk);
-    }
-    Sound(Variable sndlnk){
-      player = minim.loadFile(sndlnk.toString());
-    }
-    
-    void Play(){
-      player.play();
-    }
-  }
 }
 
 class Broadcast {
@@ -819,4 +804,40 @@ class Stage{
   int BackgroundNumber(){
     return bckNo; 
   } 
+}
+
+//SOUND CLASS
+class Sound{
+  AudioPlayer player;
+  Sound(String sndlnk){
+    player = minim.loadFile(sndlnk);
+  }
+  Sound(Variable sndlnk){
+    player = minim.loadFile(sndlnk.toString());
+  }
+  
+  //SOUND FUNCTIONS
+  float Volume(){
+    return player.getVolume();
+  }
+  
+  void SetVolumeTo(int val){
+    player.setVolume(((val*Volume() )/100));
+  }
+  void SetVolumeTo(Variable val){
+    player.setVolume(((float(val.value.toString())*Volume() )/100));
+  }
+  
+  void Play(){
+    player.play();
+  }
+  
+  void Pause(){
+    player.pause(); 
+  }
+  
+  void Stop(){
+    player.pause();
+    player.rewind();
+  }
 }
