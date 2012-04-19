@@ -399,10 +399,10 @@ class Sprite {
   }
   
   void ChangeYBy(int amt){
-    y+=amt;
+    y-=amt;
   }
   void ChangeYBy(Variable amt){
-    y+=int(amt.toString());
+    y-=int(amt.toString());
   }
   
   void SetXTo(int amt){
@@ -806,26 +806,43 @@ class Stage{
   } 
 }
 
+ArrayList sounds = new ArrayList();
+
 //SOUND CLASS
 class Sound{
   AudioPlayer player;
   Sound(String sndlnk){
     player = minim.loadFile(sndlnk);
+    sounds.add(this);
   }
   Sound(Variable sndlnk){
     player = minim.loadFile(sndlnk.toString());
+    sounds.add(this);
   }
   
   //SOUND FUNCTIONS
   float Volume(){
-    return player.getVolume();
+    return player.getGain();
   }
   
   void SetVolumeTo(int val){
-    player.setVolume(((val*Volume() )/100));
+    player.setGain(val);
+  }
+  void SetVolumeTo(float val){
+    player.setGain(val);
   }
   void SetVolumeTo(Variable val){
-    player.setVolume(((float(val.value.toString())*Volume() )/100));
+    player.setGain(float(val.value.toString()));
+  }
+  
+  void ChangeVolumeBy(int val){
+    SetVolumeTo(Volume()+val);
+  }
+  void ChangeVolumeBy(float val){
+    SetVolumeTo(Volume()+val);
+  }
+  void ChangeVolumeBy(Variable val){
+    SetVolumeTo(Volume()+float(val.value.toString()));
   }
   
   void Play(){
@@ -837,16 +854,24 @@ class Sound{
   }
   
   void Stop(){
-    player.pause();
     player.rewind();
+    player.pause();
   }
-  
-  //TEMPORARY.. need to use array so it automatically does it somehow
-  void Close(){
-    player.close(); 
+}
+
+void StopAllSounds(){
+  for (int i = 0; i<sounds.size(); i++){
+    Sound fsnd = (Sound) sounds.get(i);
+    if (fsnd.player.isPlaying()){
+      fsnd.Stop(); 
+    }
   }
-  
-  //explodingart.com/soundcipher
-  //implement with scratch soundbank.gm in /static/ of scratchr for different sounds?
-  //possibly use other library and try to get sounds from squeak?
+}
+
+void SoundCleanse(){
+  for (int i = 0; i<sounds.size(); i++){
+    Sound fsnd = (Sound) sounds.get(i);
+    fsnd.player.close();
+  }
+  minim.stop();
 }
