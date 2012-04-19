@@ -135,7 +135,7 @@ boolean MouseDown(int btn){
 //KEY SENSING
 boolean KeyPressed(char lpkey){
   if(keyPressed){
-    if (key == lpkey){
+    if (key == lpkey || key == str(lpkey).toUpperCase().charAt(0)){
       return true;
     }
     else return false;
