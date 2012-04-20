@@ -806,9 +806,15 @@ class Stage{
   } 
 }
 
-ArrayList sounds = new ArrayList();
+///////////////////////
+///////////////////////
+///////SOUND///////////
+//related/functions/&//
+//////classes//////////
+///////////////////////
+///////////////////////
 
-//SOUND CLASS
+ArrayList sounds = new ArrayList();
 class Sound{
   AudioPlayer player;
   Sound(String sndlnk){
@@ -820,7 +826,6 @@ class Sound{
     sounds.add(this);
   }
   
-  //SOUND FUNCTIONS
   float Volume(){
     return player.getGain();
   }
@@ -868,21 +873,20 @@ void StopAllSounds(){
   }
 }
 
+ArrayList mics = new ArrayList();
 class Microphone{
   AudioInput mic;
   Microphone(){
     if (minim.getLineIn() != null){
       mic = minim.getLineIn();
+      mics.add(this);
     }
-    //println(mic);
   }
-  
   int ln=-1;
   int Loudness(){
     if (mic != null){ ln++; if (ln==1024) ln=0; return int(map(mic.mix.get(ln),-1,1,0,100)); }
     else return 0;
   }
-  
   boolean Loud(){
     if (Loudness()>30) return true;
     else return false;
@@ -894,5 +898,10 @@ void SoundCleanse(){
     Sound fsnd = (Sound) sounds.get(i);
     fsnd.player.close();
   }
+  for (int i = 0; i<mics.size(); i++){
+    Microphone fmic = (Microphone) mics.get(i);
+    fmic.mic.close();
+  }
   minim.stop();
+  super.stop();
 }
