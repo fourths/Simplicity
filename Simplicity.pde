@@ -884,7 +884,7 @@ class Microphone{
   }
   int ln=-1;
   int Loudness(){
-    if (mic != null){ ln++; if (ln==1024) ln=0; return int(map(mic.mix.get(ln),-1,1,0,100)); }
+    if (mic != null){ ln++; if (ln==1024) ln=0; return int(map(abs(mic.mix.get(ln)),0,1,0,100)); }
     else return 0;
   }
   boolean Loud(){
