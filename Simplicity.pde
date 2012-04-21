@@ -8,6 +8,9 @@ import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
 
 Minim minim = new Minim(this);
+boolean asking;
+String askstring,finalResponse;
+Variable response = new Variable("");
 
 void Stop(){
   noLoop();
@@ -257,14 +260,15 @@ boolean KeyPressed(String keyc){
 class Sprite {
   boolean saying,thinking,hidden;
   String saystring;
-  int width,height,typ,costNo,ssize;
+  Variable response = new Variable("");
+  int wids,heis,typ,costNo,ssize;
   int x,y;
   ArrayList costumes = new ArrayList();
   Sprite (int xx, int yy, int wid, int hei){
     x=xx;
     y=yy;
-    width=wid;
-    height=hei;
+    wids=wid;
+    heis=hei;
     typ=1;
     ssize=100;
   }
@@ -273,8 +277,8 @@ class Sprite {
     y=yy;
     costumes.add(new Costume(im));
     Costume cost = (Costume) costumes.get(0);
-    width=cost.width;
-    height=cost.height;
+    wids=cost.wids;
+    heis=cost.heis;
     costNo=0;
     typ=2;
     ssize=100;
@@ -284,29 +288,29 @@ class Sprite {
     if (!hidden){
       if (typ==1){
         fill(255);
-        //draw rectangle at given coordinates with set height/width
-        rect(x,y,width,height);
+        //draw rectangle at given coordinates with set heis/wids
+        rect(x,y,wids,heis);
       }
       else if (typ==2){
         Costume cost = (Costume) costumes.get(CostumeNumber());
-        width  = cost.img.width  + (width  - cost.img.width);
-        height = cost.img.height + (height - cost.img.height);
-        image(cost.img,x,y,width,height); 
+        wids  = cost.img.width  + (wids  - cost.img.width);
+        heis = cost.img.height + (heis - cost.img.height);
+        image(cost.img,x,y,wids,heis); 
       }
       
       if (saying) {
         fill(255);
         stroke(#000000);
-        rect(x + width, (y - height) + (height/2), textWidth(saystring)+20, 35);
+        rect(x + wids, (y - heis) + (heis/2), textWidth(saystring)+20, 35);
         fill(#000000);
-        text(saystring, x + width + 10, ((y - height)+(height/2))+(35/2+5));
+        text(saystring, x + wids + 10, ((y - heis)+(heis/2))+(35/2+5));
       }
       else if (thinking) {
         fill(255);
         stroke(#000000);
-        rect(x + width, (y - height) + (height/2), textWidth(saystring)+20, 35);
+        rect(x + wids, (y - heis) + (heis/2), textWidth(saystring)+20, 35);
         fill(#000000);
-        text(saystring, x + width + 10, ((y - height)+(height/2))+(35/2+5));
+        text(saystring, x + wids + 10, ((y - heis)+(heis/2))+(35/2+5));
       }
     }
   }
@@ -327,7 +331,7 @@ class Sprite {
   }
   
   boolean Clicked(){
-    if (mousePressed && mouseX>x && mouseX<x+width && mouseY>y && mouseY<y+height){
+    if (mousePressed && mouseX>x && mouseX<x+wids && mouseY>y && mouseY<y+heis){
       return true; 
     }
     else return false;
@@ -481,14 +485,14 @@ class Sprite {
   
   void SetSizeTo(int val){
     Costume cost = (Costume) costumes.get(CostumeNumber());
-    width =((val*cost.width)/100);
-    height=((val*cost.height)/100);
+    wids =((val*cost.wids)/100);
+    heis=((val*cost.heis)/100);
     ssize = val;
   }
   void SetSizeTo(Variable val){
     Costume cost = (Costume) costumes.get(CostumeNumber());
-    width =((int(val.toString())*cost.width)/100);
-    height=((int(val.toString())*cost.height)/100);
+    wids =((int(val.toString())*cost.wids)/100);
+    heis=((int(val.toString())*cost.heis)/100);
     ssize = int(val.toString());
   }
   
@@ -512,12 +516,12 @@ class Sprite {
   //---------------------------
   
   boolean Touching(Sprite spr){
-    if ((x>=spr.x && y>=spr.y) || (x+width>=spr.x && y+height>=spr.y)){
-      if (x<=spr.x+spr.width && y<=spr.y+spr.height){
-        if ((x+width)>=spr.x && (y+height)>=spr.y){
+    if ((x>=spr.x && y>=spr.y) || (x+wids>=spr.x && y+heis>=spr.y)){
+      if (x<=spr.x+spr.wids && y<=spr.y+spr.heis){
+        if ((x+wids)>=spr.x && (y+heis)>=spr.y){
           return true; 
         }
-        if ((x+width<=spr.x+spr.width) && (y+width<=spr.y+spr.height)){
+        if ((x+wids<=spr.x+spr.wids) && (y+wids<=spr.y+spr.heis)){
           return true;
         }
         else return false;
@@ -533,11 +537,11 @@ class Sprite {
 
   class Costume{
     PImage img;
-    int width,height;
+    int wids,heis;
     Costume (String cIm){
       img = loadImage(cIm);
-      width = img.width;
-      height = img.height;
+      wids = img.width;
+      heis = img.height;
     }
   }
 }
@@ -609,6 +613,27 @@ class Variable{
   }
   String toString(){
     return value.toString();
+  }
+  
+  boolean equals(int eq){
+    if (eq == int(value.toString())) return true;
+    else return false;
+  }
+  boolean equals(float eq){
+    if (eq == float(value.toString())) return true;
+    else return false;
+  }
+  boolean equals(boolean eq){
+    if (eq == boolean(value.toString())) return true;
+    else return false;
+  }
+  boolean equals(String eq){
+    if (eq.equals(value.toString())) return true;
+    else return false;
+  }
+  boolean equals(Variable eq){
+    if (eq.value.toString().equals(value.toString())) return true;
+    else return false;
   }
 }
 
@@ -758,6 +783,14 @@ class Stage{
     Background bck = (Background) backgrounds.get(BackgroundNumber());
     if (bck.img != null) background(bck.img);
     else background(bck.colour);
+    if (asking) {
+      fill(255);
+      stroke(#0494dc);
+      rect((-width/2)+10,height/2-30,width-20,20);
+      text(askstring,(-width/2)+10,height/2-32);
+      fill(0);
+      text(response.toString(),(-width/2)+10,height/2-15);
+    }
   }
   
   class Background{
@@ -904,4 +937,36 @@ void SoundCleanse(){
   }
   minim.stop();
   super.stop();
+}
+
+void keyTyped(){
+  if (key == ENTER || key == RETURN){
+    finalResponse = response.toString();
+    asking = false; 
+  }
+  else if (key == BACKSPACE || key == DELETE){
+    if (response.value.length()>=1){
+      response.value.deleteCharAt(response.value.length()-1); 
+    }
+  }
+  else if (response.value.length()<34 && key != SHIFT && key != CODED && key != ALT && key != CONTROL && key != ESC && key != TAB) response.value.append(key); 
+}
+
+void Ask(String val){
+  if (!asking){
+    response.value.delete(0,response.value.length());
+    asking = true;
+    askstring = val;
+  }
+}
+void Ask(Variable val){
+  if (!asking){
+    response.value.delete(0,response.value.length());
+    asking = true;
+    askstring = val.toString();
+  }
+}
+
+String Answer(){
+  return finalResponse; 
 }
