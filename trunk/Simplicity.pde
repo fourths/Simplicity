@@ -1,5 +1,5 @@
 //Simplicity
-//veg & pf
+//code by veggieman and transparent
 
 //minim for sound
 import ddf.minim.*;
@@ -263,6 +263,7 @@ class Sprite {
   String saystring;
   Variable response = new Variable("");
   int wids,heis,typ,costNo,ssize;
+  int direction = 90;
   int x,y;
   ArrayList costumes = new ArrayList();
   Sprite (int xx, int yy, int wid, int hei){
@@ -289,14 +290,24 @@ class Sprite {
     if (!hidden){
       if (typ==1){
         fill(255);
+        pushMatrix();
+        translate(x,y);
+        rotate(radians(direction-90));
+        translate(-x,-y);
         //draw rectangle at given coordinates with set heis/wids
         rect(x,y,wids,heis);
+        popMatrix();
       }
       else if (typ==2){
         Costume cost = (Costume) costumes.get(CostumeNumber());
         wids  = cost.img.width  + (wids  - cost.img.width);
         heis = cost.img.height + (heis - cost.img.height);
-        image(cost.img,x,y,wids,heis); 
+        pushMatrix();
+        translate(x,y);
+        rotate(radians(direction-90));
+        translate(-x,-y);
+        image(cost.img,x,y,wids,heis);
+        popMatrix();
       }
       
       if (saying) {
@@ -433,6 +444,56 @@ class Sprite {
     for (int i=0; i<int(steps.toString()); i++){
       x+=5;
     }
+  }
+  
+  void PointInDirection(int dir){
+    direction = dir;
+  }
+  void PointInDirection(float dir){
+    direction = int(dir);
+  }
+  void PointInDirection(Variable dir){
+    direction = int(dir.toString());
+  }
+  
+  void TurnCWDegrees(int amt){
+    direction += amt; 
+  }
+  void TurnCWDegrees(float amt){
+    direction += int(amt); 
+  }
+  void TurnCWDegrees(Variable amt){
+    direction += int(amt.toString()); 
+  }
+  void TurnCCWDegrees(int amt){
+    direction -= amt; 
+  }
+  void TurnCCWDegrees(float amt){
+    direction -= int(amt); 
+  }
+  void TurnCCWDegrees(Variable amt){
+    direction -= int(amt.toString()); 
+  }
+  
+  int Direction(){
+    return direction; 
+  }
+  
+  void PointTowards(Sprite spr){  
+    int deltax = spr.XPosition()-XPosition(); 
+    int deltay = spr.YPosition()-YPosition();
+    if (deltay == 0){
+      if (deltax<0) PointInDirection(90);
+      else PointInDirection(270);
+    }
+    else{
+      if (deltay<0) PointInDirection((180-(degrees(atan(radians(deltax)/radians(deltay))))));
+      else PointInDirection(-(degrees(atan(radians(deltax)/radians(deltay)))));
+    }
+  }
+  
+  void IfOnEdgeBounce(){
+    
   }
   
   //---------------------------
@@ -789,10 +850,12 @@ class Stage{
       stroke(#0494dc);
       rect((-width/2)+10,height/2-30,width-20,20);
       stroke(0);
+      strokeWeight(3);
+      strokeJoin(ROUND);
       fill(askcolour);
       text(askstring,(-width/2)+10,height/2-32);
       fill(0);
-      text(response.toString(),(-width/2)+10,height/2-15);
+      text(response.toString(),(-width/2)+12,height/2-15);
     }
   }
   
@@ -983,7 +1046,7 @@ void Ask(Variable val, color clr){
   if (!asking){
     response.value.delete(0,response.value.length());
     asking = true;
-    askstring = val,toString;
+    askstring = val.toString();
     askcolour = clr;
   }
 }
