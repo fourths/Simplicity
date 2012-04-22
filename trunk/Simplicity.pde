@@ -9,6 +9,7 @@ import ddf.minim.effects.*;
 
 Minim minim = new Minim(this);
 boolean asking;
+color askcolour;
 String askstring,finalResponse;
 Variable response = new Variable("");
 
@@ -787,6 +788,8 @@ class Stage{
       fill(255);
       stroke(#0494dc);
       rect((-width/2)+10,height/2-30,width-20,20);
+      stroke(0);
+      fill(askcolour);
       text(askstring,(-width/2)+10,height/2-32);
       fill(0);
       text(response.toString(),(-width/2)+10,height/2-15);
@@ -957,6 +960,7 @@ void Ask(String val){
     response.value.delete(0,response.value.length());
     asking = true;
     askstring = val;
+    askcolour = color(0,0,0);
   }
 }
 void Ask(Variable val){
@@ -964,6 +968,23 @@ void Ask(Variable val){
     response.value.delete(0,response.value.length());
     asking = true;
     askstring = val.toString();
+    askcolour = color(0,0,0);
+  }
+}
+void Ask(String val, color clr){
+  if (!asking){
+    response.value.delete(0,response.value.length());
+    asking = true;
+    askstring = val;
+    askcolour = clr;
+  }
+}
+void Ask(Variable val, color clr){
+  if (!asking){
+    response.value.delete(0,response.value.length());
+    asking = true;
+    askstring = val,toString;
+    askcolour = clr;
   }
 }
 
