@@ -8,10 +8,13 @@ import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
 
 Minim minim = new Minim(this);
+int MouseX,MouseY;
 boolean asking;
 color askcolour;
 String askstring,finalResponse;
 Variable response = new Variable("");
+final static float E = exp(1);
+final static int COLOR = 632;
 
 void Stop(){
   noLoop();
@@ -49,6 +52,15 @@ float PickRandom(float low, Variable high){
   return random(low, float(high.value.toString()));
 }
 
+int Round(int dec){
+  return round(dec);
+}
+int Round(float dec){
+  return round(dec); 
+}
+int Round(Variable dec){
+  return round(dec.toFloat());  
+}
 
 int LengthOf(int val){
   return str(val).length(); 
@@ -262,7 +274,7 @@ class Sprite {
   boolean saying,thinking,hidden;
   String saystring;
   Variable response = new Variable("");
-  int wids,heis,typ,costNo,ssize;
+  int wids,heis,typ,costNo,ssize,cureffect,effectamt;
   int direction = 90;
   int x,y;
   ArrayList costumes = new ArrayList();
@@ -306,6 +318,8 @@ class Sprite {
         translate(x,y);
         rotate(radians(direction-90));
         translate(-x,-y);
+        if (cureffect == COLOR) tint(effectamt,effectamt,effectamt);
+        else if (cureffect != 0) filter(cureffect,effectamt);
         image(cost.img,x,y,wids,heis);
         popMatrix();
       }
@@ -343,7 +357,7 @@ class Sprite {
   }
   
   boolean Clicked(){
-    if (mousePressed && mouseX>x && mouseX<x+wids && mouseY>y && mouseY<y+heis){
+    if (mousePressed && MouseX>x-wids/2 && MouseX<x+wids/2 && MouseY>y-wids/2 && MouseY<y+heis/2){
       return true; 
     }
     else return false;
@@ -571,19 +585,150 @@ class Sprite {
   
   void Hide(){
     hidden = true; 
+  } 
+  
+  // 1 - threshold, 2 - gray, 3 - invert, 4 - posterize
+  // 5 - blur, 6 - erode, 7 - dilate, 8 - color
+  
+  void SetEffectTo(int effect){
+    if (effect == THRESHOLD){
+      cureffect = THRESHOLD;
+    }
+    if (effect == GRAY){
+      cureffect = GRAY;
+    }
+    if (effect == INVERT){
+      cureffect = INVERT;
+    }
+    if (effect == POSTERIZE){
+      cureffect = POSTERIZE;
+    }
+    if (effect == BLUR){
+      cureffect = BLUR;
+    }
+    if (effect == ERODE){
+      cureffect = ERODE;
+    }
+    if (effect == DILATE){
+      cureffect = DILATE;
+    }
+    if (effect == COLOR){
+      cureffect = COLOR;
+    }
+    else{ cureffect = 0; effectamt = 0; }
   }
+  void SetEffectTo(int effect,int amt){
+    effectamt = amt;
+    if (effect == THRESHOLD){
+      cureffect = THRESHOLD;
+    }
+    if (effect == GRAY){
+      cureffect = GRAY;
+    }
+    if (effect == INVERT){
+      cureffect = INVERT;
+    }
+    if (effect == POSTERIZE){
+      cureffect = POSTERIZE;
+    }
+    if (effect == BLUR){
+      cureffect = BLUR;
+    }
+    if (effect == ERODE){
+      cureffect = ERODE;
+    }
+    if (effect == DILATE){
+      cureffect = DILATE;
+    }
+    if (effect == COLOR){
+      cureffect = COLOR;
+    }
+    else{ cureffect = 0; effectamt = 0; }
+  }
+  void SetEffectTo(int effect,float amt){
+    effectamt = int(amt);
+    if (effect == THRESHOLD){
+      cureffect = THRESHOLD;
+    }
+    if (effect == GRAY){
+      cureffect = GRAY;
+    }
+    if (effect == INVERT){
+      cureffect = INVERT;
+    }
+    if (effect == POSTERIZE){
+      cureffect = POSTERIZE;
+    }
+    if (effect == BLUR){
+      cureffect = BLUR;
+    }
+    if (effect == ERODE){
+      cureffect = ERODE;
+    }
+    if (effect == DILATE){
+      cureffect = DILATE;
+    }
+    if (effect == COLOR){
+      cureffect = COLOR;
+    }
+    else{ cureffect = 0; effectamt = 0; }
+  }
+  void SetEffectTo(int effect,Variable amt){
+    effectamt = amt.toInt();
+    if (effect == THRESHOLD){
+      cureffect = THRESHOLD;
+    }
+    if (effect == GRAY){
+      cureffect = GRAY;
+    }
+    if (effect == INVERT){
+      cureffect = INVERT;
+    }
+    if (effect == POSTERIZE){
+      cureffect = POSTERIZE;
+    }
+    if (effect == BLUR){
+      cureffect = BLUR;
+    }
+    if (effect == ERODE){
+      cureffect = ERODE;
+    }
+    if (effect == DILATE){
+      cureffect = DILATE;
+    }
+    if (effect == COLOR){
+      cureffect = COLOR;
+    }
+    else{ cureffect = 0; effectamt = 0; }
+  }
+  
+  void ChangeEffectBy(int amt){
+    effectamt+=amt; 
+  }
+  void ChangeEffectBy(float amt){
+    effectamt+=int(amt); 
+  }
+  void ChangeEffectBy(Variable amt){
+    effectamt+=amt.toInt(); 
+  }
+
+  void ClearGraphicEffect(){
+    cureffect = 0;
+    effectamt = 0; 
+  }
+  
   
   //---------------------------
   //------SENSING--------------
   //---------------------------
   
   boolean Touching(Sprite spr){
-    if ((x>=spr.x && y>=spr.y) || (x+wids>=spr.x && y+heis>=spr.y)){
-      if (x<=spr.x+spr.wids && y<=spr.y+spr.heis){
-        if ((x+wids)>=spr.x && (y+heis)>=spr.y){
+    if ((x-(wids/2)>=spr.x-(spr.wids/2) && y-(heis/2)>=spr.y-(spr.heis/2)) || (x+wids/2>=spr.x-(spr.wids/2) && y+heis/2>=spr.y-(spr.heis/2))){
+      if (x-(wids/2)<=spr.x+(spr.wids/2) && y-(wids/2)<=spr.y+(spr.heis/2)){
+        if ((x+wids/2)>=spr.x-spr.wids/2 && (y+heis/2)>=spr.y-spr.heis/2){
           return true; 
         }
-        if ((x+wids<=spr.x+spr.wids) && (y+wids<=spr.y+spr.heis)){
+        if ((x+wids/2<=spr.x+spr.wids/2) && (y+wids/2<=spr.y+spr.heis/2)){
           return true;
         }
         else return false;
@@ -592,9 +737,25 @@ class Sprite {
     }
     else return false;
   }
+  boolean Touching(String ms){ 
+    if (ms == "mouse" || ms == "Mouse" || ms == "MOUSE"){
+       if (MouseX>x-wids/2 && MouseY>y-heis/2 && MouseX<x+wids/2 && MouseY<y+heis/2){
+         return true; 
+       }
+       else return false;
+    }
+    else return false;
+  }
   
   float Distance(Sprite spr){
     return dist(x,y,spr.x,spr.y);
+  }
+  
+  int MouseX(){
+    return MouseX; 
+  }
+  int MouseY(){
+    return MouseY; 
   }
 
   class Costume{
@@ -845,6 +1006,8 @@ class Stage{
     Background bck = (Background) backgrounds.get(BackgroundNumber());
     if (bck.img != null) background(bck.img);
     else background(bck.colour);
+    MouseX=mouseX-(width/2);
+    MouseY=mouseY-(height/2);
     if (asking) {
       fill(255);
       stroke(#0494dc);
