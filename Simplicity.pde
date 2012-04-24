@@ -15,6 +15,11 @@ String askstring,finalResponse;
 Variable response = new Variable("");
 final static float E = exp(1);
 final static int COLOR = 632;
+final static int EDGE = 226;
+final static int MOUSE = 227;
+final static int LEFTBTN = 520;
+final static int CENTERBTN = 521;
+final static int RIGHTBTN = 522;
 
 void Stop(){
   noLoop();
@@ -111,25 +116,22 @@ boolean MouseDown(){
   if (mousePressed) return true;
   else return false;
 }
-boolean MouseDown(String btn){
+boolean MouseDown(int btn){
   if (mousePressed){
-    if (btn == "left" || btn == "Left" || btn == "LEFT"){
+    if (btn == LEFTBTN){
       if (mouseButton == LEFT) return true;
       else return false; 
     }
-    if (btn == "right" || btn == "Right" || btn == "RIGHT"){
+    if (btn == RIGHTBTN){
       if (mouseButton == RIGHT) return true;
       else return false; 
     }
-    if (btn == "center" || btn == "Center" || btn == "CENTER" || btn == "middle" || btn == "Middle" || btn == "MIDDLE"){
+    if (btn == CENTERBTN){
       if (mouseButton == CENTER) return true;
       else return false; 
     }
     else return false;
   }
-  else return false;  
-}
-boolean MouseDown(int btn){
   if (mousePressed){
     if (btn == 1){
       if (mouseButton == LEFT) return true;
@@ -145,7 +147,7 @@ boolean MouseDown(int btn){
     }
     else return false;
   }
-  else return false;
+  else return false;  
 }
 
 //KEY SENSING
@@ -158,114 +160,119 @@ boolean KeyPressed(char lpkey){
   }
   else return false;
 }
-boolean KeyPressed(String keyc){
-  if(keyc == "up" || keyc == "Up" || keyc == "UP"){
-    if(keyPressed){
-      if (keyCode == UP){
-        return true;
-      }
-      else return false;
-    }
-    else return false;
-  }
-  if(keyc == "down" || keyc == "Down" || keyc == "DOWN"){
-    if(keyPressed){
-      if (keyCode == DOWN){
-        return true;
-      }
-      else return false;
-    }
-    else return false;
-  }
-  if(keyc == "left" || keyc == "Left" || keyc == "LEFT"){
-    if(keyPressed){
-      if (keyCode == LEFT){
-        return true;
-      }
-      else return false;
-    }
-    else return false;
-  }
-  if(keyc == "right" || keyc == "Right" || keyc == "RIGHT"){
-    if(keyPressed){
-      if (keyCode == RIGHT){
-        return true;
-      }
-      else return false;
-    }
-    else return false;
-  }
-  if(keyc == "shift" || keyc == "Shift" || keyc == "SHIFT"){
-    if(keyPressed){
-      if (keyCode == SHIFT){
-        return true;
-      }
-      else return false;
-    }
-    else return false;
-  }
-  if(keyc == "alt" || keyc == "Alt" || keyc == "ALT"){
-    if(keyPressed){
-      if (keyCode == ALT){
-        return true;
-      }
-      else return false;
-    }
-    else return false;
-  }
-  if(keyc == "control" || keyc == "Control" || keyc == "CONTROL" || keyc == "ctrl" || keyc == "Ctrl" || keyc =="CTRL"){
-    if(keyPressed){
-      if (keyCode == CONTROL){
-        return true;
-      }
-      else return false;
-    }
-    else return false;
-  }
-  if(keyc == "backspace" || keyc == "Backspace" || keyc == "BACKSPACE" || keyc == "delete" || keyc == "Delete" || keyc == "DELETE"){
-    if(keyPressed){
-      if (key == BACKSPACE || key == DELETE){
-        return true;
-      }
-      else return false;
-    }
-    else return false;
-  }
-  if(keyc == "tab" || keyc == "Tab" || keyc == "TAB"){
-    if(keyPressed){
-      if (key == TAB){
-        return true;
-      }
-      else return false;
-    }
-    else return false;
-  }
-  if(keyc == "esc" || keyc == "Esc" || keyc == "ESC" || keyc == "escape" || keyc == "Escape" || keyc == "ESCAPE"){
-    if(keyPressed){
-      if (key == ESC){
-        return true;
-      }
-      else return false;
-    }
-    else return false;
-  }
-  if(keyc == "enter" || keyc == "Enter" || keyc == "ENTER" || keyc == "return" || keyc == "Return" || keyc == "RETURN"){
-    if(keyPressed){
-      if (key == ENTER || key == RETURN){
-        return true;
-      }
-      else return false;
-    }
-    else return false;
-  }
-  if(keyc == "space" || keyc == "Space" || keyc == "SPACE"){
-    if(keyPressed){
-      if(key == ' ') return true;
-      else return false;
-    } 
-    else return false;
+boolean KeyPressed(int keyc){
+  if (keyPressed){
+    if (keyCode == keyc) return true;
+    else return false; 
   }
   else return false;
+//  if(keyc == "up" || keyc == "Up" || keyc == "UP"){
+//    if(keyPressed){
+//      if (keyCode == UP){
+//        return true;
+//      }
+//      else return false;
+//    }
+//    else return false;
+//  }
+//  if(keyc == "down" || keyc == "Down" || keyc == "DOWN"){
+//    if(keyPressed){
+//      if (keyCode == DOWN){
+//        return true;
+//      }
+//      else return false;
+//    }
+//    else return false;
+//  }
+//  if(keyc == "left" || keyc == "Left" || keyc == "LEFT"){
+//    if(keyPressed){
+//      if (keyCode == LEFT){
+//        return true;
+//      }
+//      else return false;
+//    }
+//    else return false;
+//  }
+//  if(keyc == "right" || keyc == "Right" || keyc == "RIGHT"){
+//    if(keyPressed){
+//      if (keyCode == RIGHT){
+//        return true;
+//      }
+//      else return false;
+//    }
+//    else return false;
+//  }
+//  if(keyc == "shift" || keyc == "Shift" || keyc == "SHIFT"){
+//    if(keyPressed){
+//      if (keyCode == SHIFT){
+//        return true;
+//      }
+//      else return false;
+//    }
+//    else return false;
+//  }
+//  if(keyc == "alt" || keyc == "Alt" || keyc == "ALT"){
+//    if(keyPressed){
+//      if (keyCode == ALT){
+//        return true;
+//      }
+//      else return false;
+//    }
+//    else return false;
+//  }
+//  if(keyc == "control" || keyc == "Control" || keyc == "CONTROL" || keyc == "ctrl" || keyc == "Ctrl" || keyc =="CTRL"){
+//    if(keyPressed){
+//      if (keyCode == CONTROL){
+//        return true;
+//      }
+//      else return false;
+//    }
+//    else return false;
+//  }
+//  if(keyc == "backspace" || keyc == "Backspace" || keyc == "BACKSPACE" || keyc == "delete" || keyc == "Delete" || keyc == "DELETE"){
+//    if(keyPressed){
+//      if (key == BACKSPACE || key == DELETE){
+//        return true;
+//      }
+//      else return false;
+//    }
+//    else return false;
+//  }
+//  if(keyc == "tab" || keyc == "Tab" || keyc == "TAB"){
+//    if(keyPressed){
+//      if (key == TAB){
+//        return true;
+//      }
+//      else return false;
+//    }
+//    else return false;
+//  }
+//  if(keyc == "esc" || keyc == "Esc" || keyc == "ESC" || keyc == "escape" || keyc == "Escape" || keyc == "ESCAPE"){
+//    if(keyPressed){
+//      if (key == ESC){
+//        return true;
+//      }
+//      else return false;
+//    }
+//    else return false;
+//  }
+//  if(keyc == "enter" || keyc == "Enter" || keyc == "ENTER" || keyc == "return" || keyc == "Return" || keyc == "RETURN"){
+//    if(keyPressed){
+//      if (key == ENTER || key == RETURN){
+//        return true;
+//      }
+//      else return false;
+//    }
+//    else return false;
+//  }
+//  if(keyc == "space" || keyc == "Space" || keyc == "SPACE"){
+//    if(keyPressed){
+//      if(key == ' ') return true;
+//      else return false;
+//    } 
+//    else return false;
+//  }
+//  else return false;
 }
 
 
@@ -318,9 +325,11 @@ class Sprite {
         translate(x,y);
         rotate(radians(direction-90));
         translate(-x,-y);
-        if (cureffect == COLOR) tint(effectamt,effectamt,effectamt);
-        else if (cureffect != 0) filter(cureffect,effectamt);
+//        println(cureffect);
+//        if (cureffect == COLOR) tint(effectamt,effectamt,effectamt);
         image(cost.img,x,y,wids,heis);
+//        if (cureffect != 0 && cureffect != COLOR && effectamt != 0) filter(cureffect,effectamt);
+//        else if (cureffect != COLOR) filter(cureffect);
         popMatrix();
       }
       
@@ -350,7 +359,7 @@ class Sprite {
     delay(round(wait_time*1000)); 
   }
   void Wait(int wait_time){
-    delay(round(wait_time*1000)); 
+    delay(wait_time*1000); 
   }
   void Wait(Variable wait_time){
     delay(round(float(wait_time.toString())*1000)); 
@@ -390,8 +399,8 @@ class Sprite {
     x=int(xx.toString());
     y=int(yy.toString());
   }
-  void GoTo(String mouse){
-    if (mouse=="mouse"||mouse=="MOUSE"||mouse=="Mouse"){
+  void GoTo(int ms){
+    if (ms == MOUSE){
       x=mouseX;
       y=mouseY;
     } 
@@ -507,7 +516,16 @@ class Sprite {
   }
   
   void IfOnEdgeBounce(){
-    
+    if (Touching(EDGE)){
+      ChangeXBy(int(degrees(-sin(radians(Direction())))));
+      if (Touching(EDGE)){
+        PointInDirection(180-direction); 
+      }
+      else{
+        PointInDirection(360-direction);
+      }
+      ChangeXBy(int(degrees(sin(radians(Direction())))));
+    }
   }
   
   //---------------------------
@@ -615,7 +633,7 @@ class Sprite {
     if (effect == COLOR){
       cureffect = COLOR;
     }
-    else{ cureffect = 0; effectamt = 0; }
+    //else{ cureffect = 0; effectamt = 0; }
   }
   void SetEffectTo(int effect,int amt){
     effectamt = amt;
@@ -737,12 +755,18 @@ class Sprite {
     }
     else return false;
   }
-  boolean Touching(String ms){ 
-    if (ms == "mouse" || ms == "Mouse" || ms == "MOUSE"){
-       if (MouseX>x-wids/2 && MouseY>y-heis/2 && MouseX<x+wids/2 && MouseY<y+heis/2){
+  boolean Touching(int val){ 
+    if (val == MOUSE){
+       if (MouseX>=x-wids/2 && MouseY>=y-heis/2 && MouseX<=x+wids/2 && MouseY<=y+heis/2){
          return true; 
        }
        else return false;
+    }
+    if (val == EDGE){
+      if(x-wids/2<=-(width/2) || x+wids/2>=width/2 || y-heis/2<=-(height/2) || y+heis/2>=height/2){
+        return true;
+      }
+      else return false;
     }
     else return false;
   }
@@ -905,6 +929,12 @@ class List{
   
   void DeleteOf(int val){
     values.remove(val);
+  }
+  void DeleteOf(float val){
+    values.remove(int(val));
+  }
+  void DeleteOf(Variable val){
+    values.remove(val.toInt());
   }
   
   void InsertAt(int val,int loc){
