@@ -20,6 +20,12 @@ final static int MOUSE = 227;
 final static int LEFTBTN = 520;
 final static int CENTERBTN = 521;
 final static int RIGHTBTN = 522;
+final static int TOPEDGE = 117;
+final static int BOTTOMEDGE = 118;
+final static int LEFTEDGE = 119;
+final static int RIGHTEDGE = 120;
+int timer,lastreset;
+PGraphics penarea;
 
 void Stop(){
   noLoop();
@@ -78,6 +84,14 @@ int LengthOf(String val){
 }
 int LengthOf(Variable val){
   return val.value.length(); 
+}
+
+void ResetTimer() {
+  lastreset = millis();
+}
+
+int Timer(){
+  return timer; 
 }
 
 String Join(Variable vval,String sval){
@@ -516,16 +530,7 @@ class Sprite {
   }
   
   void IfOnEdgeBounce(){
-    if (Touching(EDGE)){
-      ChangeXBy(int(degrees(-sin(radians(Direction())))));
-      if (Touching(EDGE)){
-        PointInDirection(180-direction); 
-      }
-      else{
-        PointInDirection(360-direction);
-      }
-      ChangeXBy(int(degrees(sin(radians(Direction())))));
-    }
+//i don't know
   }
   
   //---------------------------
@@ -764,6 +769,30 @@ class Sprite {
     }
     if (val == EDGE){
       if(x-wids/2<=-(width/2) || x+wids/2>=width/2 || y-heis/2<=-(height/2) || y+heis/2>=height/2){
+        return true;
+      }
+      else return false;
+    }
+    if (val == TOPEDGE){
+      if(y-heis/2<=-(height/2)){
+        return true;
+      }
+      else return false;
+    }
+    if (val == BOTTOMEDGE){
+      if(y+heis/2>=height/2){
+        return true;
+      }
+      else return false;
+    }
+    if (val == LEFTEDGE){
+      if(x-wids/2<=-(width/2)){
+        return true;
+      }
+      else return false;
+    }
+    if (val == RIGHTEDGE){
+      if(x+wids/2>=width/2){
         return true;
       }
       else return false;
@@ -1024,6 +1053,7 @@ class Stage{
   int bckNo;
   
   Stage(String im){
+    penarea = createGraphics(width,height,JAVA2D);
     backgrounds.add(new Background(im));
   }
   Stage(color clr){
@@ -1038,6 +1068,7 @@ class Stage{
     else background(bck.colour);
     MouseX=mouseX-(width/2);
     MouseY=mouseY-(height/2);
+    timer = int((millis()/100f))-lastreset;
     if (asking) {
       fill(255);
       stroke(#0494dc);
