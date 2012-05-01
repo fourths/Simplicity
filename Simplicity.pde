@@ -292,12 +292,13 @@ boolean KeyPressed(int keyc){
 
 //SPRITE CLASS / MOST FUNCTIONS
 class Sprite {
-  boolean saying,thinking,hidden;
+  boolean saying,thinking,hidden,draggable,pendown;
   String saystring;
   Variable response = new Variable("");
-  int wids,heis,typ,costNo,ssize,cureffect,effectamt;
+  int x,y,wids,heis,typ,costNo,ssize,cureffect,effectamt,penshade;
+  color pencolor;
+  int pensize = 1;
   int direction = 90;
-  int x,y;
   ArrayList costumes = new ArrayList();
   Sprite (int xx, int yy, int wid, int hei){
     x=xx;
@@ -345,6 +346,16 @@ class Sprite {
 //        if (cureffect != 0 && cureffect != COLOR && effectamt != 0) filter(cureffect,effectamt);
 //        else if (cureffect != COLOR) filter(cureffect);
         popMatrix();
+      }
+      
+      if (pendown){
+        penarea.beginDraw();
+        penarea.smooth();  
+        penarea.translate(width/2,height/2);
+        penarea.fill(pencolor);
+        penarea.stroke(pencolor);
+        penarea.ellipse(x,y,pensize,pensize);
+        penarea.endDraw(); 
       }
       
       if (saying) {
@@ -810,6 +821,74 @@ class Sprite {
   int MouseY(){
     return MouseY; 
   }
+  
+  // PEN FUNCTIONS pls
+  void PenDown(){
+    pendown = true; 
+  }
+  
+  void PenUp(){
+    pendown = false;
+  }
+  
+  void SetPenSizeTo(int amt){
+    pensize = amt;
+  }
+  void SetPenSizeTo(float amt){
+    pensize = int(amt);
+  }
+  void SetPenSizeTo(Variable amt){
+    pensize = amt.toInt();
+  }
+  
+  void ChangePenSizeBy(int amt){
+    pensize += amt;
+  }
+  void ChangePenSizeBy(float amt){
+    pensize += int(amt);
+  }
+  void ChangePenSizeBy(Variable amt){
+    pensize += amt.toInt();
+  }
+  
+  void SetPenColorTo(int amt){
+    pencolor = amt;
+  }
+  void SetPenColorTo(float amt){
+    pencolor = int(amt);
+  }
+  void SetPenColorTo(Variable amt){
+    pencolor = amt.toInt();
+  }
+  
+  void ChangePenColorBy(int amt){
+    pencolor += amt;
+  }
+  void ChangePenColorBy(float amt){
+    pencolor += int(amt);
+  }
+  void ChangePenColorBy(Variable amt){
+    pencolor += amt.toInt();
+  }  
+  void SetPenColourTo(int amt){
+    pencolor = amt;
+  }
+  void SetPenColourTo(float amt){
+    pencolor = int(amt);
+  }
+  void SetPenColourTo(Variable amt){
+    pencolor = amt.toInt();
+  } 
+  void ChangePenColourBy(int amt){
+    pencolor += amt;
+  }
+  void ChangePenColourBy(float amt){
+    pencolor += int(amt);
+  }
+  void ChangePenColourBy(Variable amt){
+    pencolor += amt.toInt();
+  }  
+  
 
   class Costume{
     PImage img;
@@ -1057,6 +1136,7 @@ class Stage{
     backgrounds.add(new Background(im));
   }
   Stage(color clr){
+    penarea = createGraphics(width,height,P2D);
     backgrounds.add(new Background(clr)); 
   }
   
@@ -1069,6 +1149,9 @@ class Stage{
     MouseX=mouseX-(width/2);
     MouseY=mouseY-(height/2);
     timer = int((millis()/100f))-lastreset;
+    penarea.beginDraw();
+    penarea.endDraw();
+    if (penarea != null) image(penarea,0,0);
     if (asking) {
       fill(255);
       stroke(#0494dc);
