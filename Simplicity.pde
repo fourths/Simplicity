@@ -27,6 +27,18 @@ final static int RIGHTEDGE = 120;
 int timer,lastreset;
 PGraphics penarea;
 
+
+//palette definition
+color[] palette = {
+color(255,0,0),color(255,7,0),color(255,15,0),color(255,23,0),color(255,30,0),color(255,38,0),
+color(255,46,0),color(255,53,0),color(255,61,0),color(255,69,0),color(255,76,0),color(255,84,0),
+color(255,92,0),color(255,99,0),color(255,107,0),color(255,115,0),color(255,122,0),color(255,130,0),
+color(255,138,0),color(255,145,0),color(255,153,0),color(255,161,0),color(255,168,0),color(255,176,0),
+color(255,184,0),color(255,191,0),color(255,199,0),color(255,207,0),color(255,207,0),color(255,214,0),
+color(255,222,0),color(255,230,0),color(255,230,0),color(255,237,0),color(255,245,0),color(255,253,0),
+color(250,255,0),color(243,255,0),color(235,255,0),color(227,255,0),color(220,255,0),color(220,255,0),
+color(212,255,0),color(204,255,0),color(204,255,0),color(197,255,0)}; //next 42
+
 void Stop(){
   noLoop();
 }
@@ -180,113 +192,6 @@ boolean KeyPressed(int keyc){
     else return false; 
   }
   else return false;
-//  if(keyc == "up" || keyc == "Up" || keyc == "UP"){
-//    if(keyPressed){
-//      if (keyCode == UP){
-//        return true;
-//      }
-//      else return false;
-//    }
-//    else return false;
-//  }
-//  if(keyc == "down" || keyc == "Down" || keyc == "DOWN"){
-//    if(keyPressed){
-//      if (keyCode == DOWN){
-//        return true;
-//      }
-//      else return false;
-//    }
-//    else return false;
-//  }
-//  if(keyc == "left" || keyc == "Left" || keyc == "LEFT"){
-//    if(keyPressed){
-//      if (keyCode == LEFT){
-//        return true;
-//      }
-//      else return false;
-//    }
-//    else return false;
-//  }
-//  if(keyc == "right" || keyc == "Right" || keyc == "RIGHT"){
-//    if(keyPressed){
-//      if (keyCode == RIGHT){
-//        return true;
-//      }
-//      else return false;
-//    }
-//    else return false;
-//  }
-//  if(keyc == "shift" || keyc == "Shift" || keyc == "SHIFT"){
-//    if(keyPressed){
-//      if (keyCode == SHIFT){
-//        return true;
-//      }
-//      else return false;
-//    }
-//    else return false;
-//  }
-//  if(keyc == "alt" || keyc == "Alt" || keyc == "ALT"){
-//    if(keyPressed){
-//      if (keyCode == ALT){
-//        return true;
-//      }
-//      else return false;
-//    }
-//    else return false;
-//  }
-//  if(keyc == "control" || keyc == "Control" || keyc == "CONTROL" || keyc == "ctrl" || keyc == "Ctrl" || keyc =="CTRL"){
-//    if(keyPressed){
-//      if (keyCode == CONTROL){
-//        return true;
-//      }
-//      else return false;
-//    }
-//    else return false;
-//  }
-//  if(keyc == "backspace" || keyc == "Backspace" || keyc == "BACKSPACE" || keyc == "delete" || keyc == "Delete" || keyc == "DELETE"){
-//    if(keyPressed){
-//      if (key == BACKSPACE || key == DELETE){
-//        return true;
-//      }
-//      else return false;
-//    }
-//    else return false;
-//  }
-//  if(keyc == "tab" || keyc == "Tab" || keyc == "TAB"){
-//    if(keyPressed){
-//      if (key == TAB){
-//        return true;
-//      }
-//      else return false;
-//    }
-//    else return false;
-//  }
-//  if(keyc == "esc" || keyc == "Esc" || keyc == "ESC" || keyc == "escape" || keyc == "Escape" || keyc == "ESCAPE"){
-//    if(keyPressed){
-//      if (key == ESC){
-//        return true;
-//      }
-//      else return false;
-//    }
-//    else return false;
-//  }
-//  if(keyc == "enter" || keyc == "Enter" || keyc == "ENTER" || keyc == "return" || keyc == "Return" || keyc == "RETURN"){
-//    if(keyPressed){
-//      if (key == ENTER || key == RETURN){
-//        return true;
-//      }
-//      else return false;
-//    }
-//    else return false;
-//  }
-//  if(keyc == "space" || keyc == "Space" || keyc == "SPACE"){
-//    if(keyPressed){
-//      if(key == ' ') return true;
-//      else return false;
-//    } 
-//    else return false;
-//  }
-//  else return false;
 }
 
 
@@ -295,7 +200,8 @@ class Sprite {
   boolean saying,thinking,hidden,draggable,pendown;
   String saystring;
   Variable response = new Variable("");
-  int x,y,wids,heis,typ,costNo,ssize,cureffect,effectamt,penshade;
+  int wids,heis,typ,costNo,ssize,cureffect,effectamt,penshade;
+  float x,y;
   color pencolor;
   int pensize = 1;
   int direction = 90;
@@ -409,14 +315,18 @@ class Sprite {
   //---------------------------
   
   int XPosition(){
-    return x;
+    return int(x);
   }
   
   int YPosition(){
-    return y;
+    return int(y);
   }
   
   void GoTo(int xx,int yy){
+    x=xx;
+    y=yy;
+  }
+  void GoTo(float xx,float yy){
     x=xx;
     y=yy;
   }
@@ -436,22 +346,14 @@ class Sprite {
   }
   
   //NEED SECONDS/REDO
-  void GlideTo(int xx,int yy){
-    while(x!=xx){
-      if (x>xx){
-        x-=1; 
-      }
-      else {
-        x+=1; 
-      }
-    }
-    while(y!=yy){
-      if (y>yy){
-        y-=1; 
-      }
-      else {
-        y+=1; 
-      }
+  void GlideSecsTo(int secs, int xx,int yy){
+    int amt = int(frameRate*50);
+    float xspeed = (xx - x)/(secs*amt);
+    float yspeed = (yy - y)/(secs*amt);
+    //println(xspeed + "; " + yspeed);
+    for (int i = 0; i<(secs*amt); i++){
+      GoTo(x+xspeed,y+yspeed);
+      update();
     }
   }
   
