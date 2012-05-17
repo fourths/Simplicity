@@ -29,15 +29,19 @@ PGraphics penarea;
 
 
 //palette definition
-color[] palette = {
-color(255,0,0),color(255,7,0),color(255,15,0),color(255,23,0),color(255,30,0),color(255,38,0),
-color(255,46,0),color(255,53,0),color(255,61,0),color(255,69,0),color(255,76,0),color(255,84,0),
-color(255,92,0),color(255,99,0),color(255,107,0),color(255,115,0),color(255,122,0),color(255,130,0),
-color(255,138,0),color(255,145,0),color(255,153,0),color(255,161,0),color(255,168,0),color(255,176,0),
-color(255,184,0),color(255,191,0),color(255,199,0),color(255,207,0),color(255,207,0),color(255,214,0),
-color(255,222,0),color(255,230,0),color(255,230,0),color(255,237,0),color(255,245,0),color(255,253,0),
-color(250,255,0),color(243,255,0),color(235,255,0),color(227,255,0),color(220,255,0),color(220,255,0),
-color(212,255,0),color(204,255,0),color(204,255,0),color(197,255,0)}; //next 42
+//color[] palette = {
+//color(255,0,0),color(255,7,0),color(255,15,0),color(255,23,0),color(255,30,0),color(255,38,0),
+//color(255,46,0),color(255,53,0),color(255,61,0),color(255,69,0),color(255,76,0),color(255,84,0),
+//color(255,92,0),color(255,99,0),color(255,107,0),color(255,115,0),color(255,122,0),color(255,130,0),
+//color(255,138,0),color(255,145,0),color(255,153,0),color(255,161,0),color(255,168,0),color(255,176,0),
+//color(255,184,0),color(255,191,0),color(255,199,0),color(255,207,0),color(255,207,0),color(255,214,0),
+//color(255,222,0),color(255,230,0),color(255,230,0),color(255,237,0),color(255,245,0),color(255,253,0),
+//color(250,255,0),color(243,255,0),color(235,255,0),color(227,255,0),color(220,255,0),color(220,255,0),
+//color(212,255,0),color(204,255,0),color(204,255,0),color(197,255,0),color(189,255,0),color(181,255,0),
+//color(174,255,0),color(166,255,0),color(158,255,0),color(151,255,0),color(143,255,0),color(135,255,0),
+//color(128,255,0),color(120,255,0),color(112,255,0),color(104,255,0),color(97,255,0),color(89,255,0),
+//color(81,255,0),color(74,255,0),color(66,255,0),color(58,255,0),color(51,255,0),color(43,255,0),
+//color(35,255,0),color(28,255,0),color(20,255,0),color(12,255,0),}; 
 
 void Stop(){
   noLoop();
@@ -45,6 +49,65 @@ void Stop(){
 
 void Exit(){
   exit(); 
+}
+
+float Sin(float val){
+  return degrees(sin(val)); 
+}
+float Sin(int val){
+  return degrees(sin(val)); 
+}
+float Sin(Variable val){
+  return degrees(sin(float(val.toString()))); 
+}
+
+float Cos(float val){
+  return degrees(cos(val)); 
+}
+float Cos(int val){
+  return degrees(cos(val)); 
+}
+float Cos(Variable val){
+  return degrees(cos(float(val.toString()))); 
+}
+
+float Tan(float val){
+  return degrees(tan(val)); 
+}
+float Tan(int val){
+  return degrees(tan(val)); 
+}
+float Tan(Variable val){
+  return degrees(tan(float(val.toString()))); 
+}
+
+float Asin(float val){
+  return degrees(asin(val)); 
+}
+float Asin(int val){
+  return degrees(asin(val)); 
+}
+float Asin(Variable val){
+  return degrees(asin(float(val.toString()))); 
+}
+
+float Acos(float val){
+  return degrees(acos(val)); 
+}
+float Acos(int val){
+  return degrees(acos(val)); 
+}
+float Acos(Variable val){
+  return degrees(acos(float(val.toString()))); 
+}
+float Atan(float val){
+  return degrees(atan(val)); 
+}
+float Atan(int val){
+  return degrees(atan(val)); 
+}
+float Atan(Variable val){
+  return degrees(atan(float(val.toString()))); 
 }
 
 float PickRandom(float low,float high){
@@ -203,6 +266,9 @@ class Sprite {
   int wids,heis,typ,costNo,ssize,cureffect,effectamt,penshade;
   float x,y;
   color pencolor;
+  float penhue=0;
+  float pensat=200;
+  float penbri=200;
   int pensize = 1;
   int direction = 90;
   ArrayList costumes = new ArrayList();
@@ -258,8 +324,10 @@ class Sprite {
         penarea.beginDraw();
         penarea.smooth();  
         penarea.translate(width/2,height/2);
-        penarea.fill(pencolor);
-        penarea.stroke(pencolor);
+        colorMode(HSB,200);
+        // WORKDpenhue = (
+        penarea.fill(color(penhue*200/360,pensat,penbri));
+        penarea.stroke(color(penhue*200/360,pensat,penbri));
         penarea.ellipse(x,y,pensize,pensize);
         penarea.endDraw(); 
       }
@@ -754,42 +822,41 @@ class Sprite {
   }
   
   void SetPenColorTo(int amt){
-    pencolor = amt;
+    penhue = amt;
   }
   void SetPenColorTo(float amt){
-    pencolor = int(amt);
+    penhue = amt;
   }
   void SetPenColorTo(Variable amt){
-    pencolor = amt.toInt();
+    penhue = amt.toFloat();
   }
-  
   void ChangePenColorBy(int amt){
-    pencolor += amt;
+    penhue+=amt;
   }
   void ChangePenColorBy(float amt){
-    pencolor += int(amt);
+    penhue+=amt;
   }
   void ChangePenColorBy(Variable amt){
-    pencolor += amt.toInt();
+    penhue+=amt.toFloat();
   }  
   void SetPenColourTo(int amt){
-    pencolor = amt;
+    penhue = amt;
   }
   void SetPenColourTo(float amt){
-    pencolor = int(amt);
+    penhue = amt;
   }
   void SetPenColourTo(Variable amt){
-    pencolor = amt.toInt();
-  } 
+    penhue = amt.toFloat();
+  }
   void ChangePenColourBy(int amt){
-    pencolor += amt;
+    penhue+=amt;
   }
   void ChangePenColourBy(float amt){
-    pencolor += int(amt);
+    penhue+=amt;
   }
   void ChangePenColourBy(Variable amt){
-    pencolor += amt.toInt();
-  }  
+    penhue+=amt.toFloat();
+  }   
   
 
   class Costume{
@@ -1038,7 +1105,7 @@ class Stage{
     backgrounds.add(new Background(im));
   }
   Stage(color clr){
-    penarea = createGraphics(width,height,P2D);
+    penarea = createGraphics(width,height,JAVA2D);
     backgrounds.add(new Background(clr)); 
   }
   
