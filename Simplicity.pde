@@ -27,22 +27,6 @@ final static int RIGHTEDGE = 120;
 int timer,lastreset;
 PGraphics penarea;
 
-
-//palette definition
-//color[] palette = {
-//color(255,0,0),color(255,7,0),color(255,15,0),color(255,23,0),color(255,30,0),color(255,38,0),
-//color(255,46,0),color(255,53,0),color(255,61,0),color(255,69,0),color(255,76,0),color(255,84,0),
-//color(255,92,0),color(255,99,0),color(255,107,0),color(255,115,0),color(255,122,0),color(255,130,0),
-//color(255,138,0),color(255,145,0),color(255,153,0),color(255,161,0),color(255,168,0),color(255,176,0),
-//color(255,184,0),color(255,191,0),color(255,199,0),color(255,207,0),color(255,207,0),color(255,214,0),
-//color(255,222,0),color(255,230,0),color(255,230,0),color(255,237,0),color(255,245,0),color(255,253,0),
-//color(250,255,0),color(243,255,0),color(235,255,0),color(227,255,0),color(220,255,0),color(220,255,0),
-//color(212,255,0),color(204,255,0),color(204,255,0),color(197,255,0),color(189,255,0),color(181,255,0),
-//color(174,255,0),color(166,255,0),color(158,255,0),color(151,255,0),color(143,255,0),color(135,255,0),
-//color(128,255,0),color(120,255,0),color(112,255,0),color(104,255,0),color(97,255,0),color(89,255,0),
-//color(81,255,0),color(74,255,0),color(66,255,0),color(58,255,0),color(51,255,0),color(43,255,0),
-//color(35,255,0),color(28,255,0),color(20,255,0),color(12,255,0),}; 
-
 void Stop(){
   noLoop();
 }
@@ -257,18 +241,17 @@ boolean KeyPressed(int keyc){
   else return false;
 }
 
-
 //SPRITE CLASS / MOST FUNCTIONS
 class Sprite {
   boolean saying,thinking,hidden,draggable,pendown;
   String saystring;
   Variable response = new Variable("");
-  int wids,heis,typ,costNo,ssize,cureffect,effectamt,penshade;
-  float x,y;
+  int wids,heis,typ,costNo,ssize,cureffect,penshade;
+  float x,y,effectamt;
   color pencolor;
   float penhue=0;
-  float pensat=200;
-  float penbri=200;
+  float pensat=360;
+  float penbri=360;
   int pensize = 1;
   int direction = 90;
   ArrayList costumes = new ArrayList();
@@ -291,7 +274,6 @@ class Sprite {
     typ=2;
     ssize=100;
   }
-  
   void update(){
     if (!hidden){
       if (typ==1){
@@ -311,27 +293,24 @@ class Sprite {
         pushMatrix();
         translate(x,y);
         rotate(radians(direction-90));
-        translate(-x,-y);
-//        println(cureffect);
-//        if (cureffect == COLOR) tint(effectamt,effectamt,effectamt);
+        translate(-x,-y);  
+        if (effectamt!=-87 && (cureffect != INVERT && cureffect != GRAY)) cost.img.filter(cureffect,effectamt);
+        else if (cureffect != POSTERIZE && cureffect != ERODE && cureffect != DILATE) cost.img.filter(cureffect);
         image(cost.img,x,y,wids,heis);
-//        if (cureffect != 0 && cureffect != COLOR && effectamt != 0) filter(cureffect,effectamt);
-//        else if (cureffect != COLOR) filter(cureffect);
         popMatrix();
       }
-      
       if (pendown){
         penarea.beginDraw();
         penarea.smooth();  
         penarea.translate(width/2,height/2);
         colorMode(HSB,200);
-        // WORKDpenhue = (
-        penarea.fill(color(penhue*200/360,pensat,penbri));
-        penarea.stroke(color(penhue*200/360,pensat,penbri));
+        penhue = (penhue > 360) ? 0 : penhue;
+        penbri = (penbri > 360) ? 0 : penbri;
+        penarea.fill(color(penhue*200/360,pensat,penbri*200/360));
+        penarea.stroke(color(penhue*200/360,pensat,penbri*200/360));
         penarea.ellipse(x,y,pensize,pensize);
         penarea.endDraw(); 
-      }
-      
+      }      
       if (saying) {
         fill(255);
         stroke(#000000);
@@ -510,10 +489,6 @@ class Sprite {
     }
   }
   
-  void IfOnEdgeBounce(){
-//i don't know
-  }
-  
   //---------------------------
   //------LOOKS----------------
   //---------------------------
@@ -589,138 +564,31 @@ class Sprite {
   
   void Hide(){
     hidden = true; 
-  } 
+  }
   
-  // 1 - threshold, 2 - gray, 3 - invert, 4 - posterize
-  // 5 - blur, 6 - erode, 7 - dilate, 8 - color
-  
+  //NEED FIXING;; BLUR, INVERT, others?
+  //ADD COLOR, etc. FROM SCRATCH
   void SetEffectTo(int effect){
-    if (effect == THRESHOLD){
-      cureffect = THRESHOLD;
-    }
-    if (effect == GRAY){
-      cureffect = GRAY;
-    }
-    if (effect == INVERT){
-      cureffect = INVERT;
-    }
-    if (effect == POSTERIZE){
-      cureffect = POSTERIZE;
-    }
-    if (effect == BLUR){
-      cureffect = BLUR;
-    }
-    if (effect == ERODE){
-      cureffect = ERODE;
-    }
-    if (effect == DILATE){
-      cureffect = DILATE;
-    }
-    if (effect == COLOR){
-      cureffect = COLOR;
-    }
-    //else{ cureffect = 0; effectamt = 0; }
+    effectamt = -87;
+    cureffect = effect;
   }
   void SetEffectTo(int effect,int amt){
     effectamt = amt;
-    if (effect == THRESHOLD){
-      cureffect = THRESHOLD;
-    }
-    if (effect == GRAY){
-      cureffect = GRAY;
-    }
-    if (effect == INVERT){
-      cureffect = INVERT;
-    }
-    if (effect == POSTERIZE){
-      cureffect = POSTERIZE;
-    }
-    if (effect == BLUR){
-      cureffect = BLUR;
-    }
-    if (effect == ERODE){
-      cureffect = ERODE;
-    }
-    if (effect == DILATE){
-      cureffect = DILATE;
-    }
-    if (effect == COLOR){
-      cureffect = COLOR;
-    }
-    else{ cureffect = 0; effectamt = 0; }
+    cureffect = effect;
   }
   void SetEffectTo(int effect,float amt){
-    effectamt = int(amt);
-    if (effect == THRESHOLD){
-      cureffect = THRESHOLD;
-    }
-    if (effect == GRAY){
-      cureffect = GRAY;
-    }
-    if (effect == INVERT){
-      cureffect = INVERT;
-    }
-    if (effect == POSTERIZE){
-      cureffect = POSTERIZE;
-    }
-    if (effect == BLUR){
-      cureffect = BLUR;
-    }
-    if (effect == ERODE){
-      cureffect = ERODE;
-    }
-    if (effect == DILATE){
-      cureffect = DILATE;
-    }
-    if (effect == COLOR){
-      cureffect = COLOR;
-    }
-    else{ cureffect = 0; effectamt = 0; }
+    effectamt = amt;
+    cureffect = effect;
   }
   void SetEffectTo(int effect,Variable amt){
-    effectamt = amt.toInt();
-    if (effect == THRESHOLD){
-      cureffect = THRESHOLD;
-    }
-    if (effect == GRAY){
-      cureffect = GRAY;
-    }
-    if (effect == INVERT){
-      cureffect = INVERT;
-    }
-    if (effect == POSTERIZE){
-      cureffect = POSTERIZE;
-    }
-    if (effect == BLUR){
-      cureffect = BLUR;
-    }
-    if (effect == ERODE){
-      cureffect = ERODE;
-    }
-    if (effect == DILATE){
-      cureffect = DILATE;
-    }
-    if (effect == COLOR){
-      cureffect = COLOR;
-    }
-    else{ cureffect = 0; effectamt = 0; }
+    effectamt = amt.toFloat();
+    cureffect = effect;
   }
   
   void ChangeEffectBy(int amt){
-    effectamt+=amt; 
+    if (effectamt != -87) effectamt += amt;
+    if (effectamt<2 && cureffect == THRESHOLD) effectamt = 2;
   }
-  void ChangeEffectBy(float amt){
-    effectamt+=int(amt); 
-  }
-  void ChangeEffectBy(Variable amt){
-    effectamt+=amt.toInt(); 
-  }
-
-  void ClearGraphicEffect(){
-    cureffect = 0;
-    effectamt = 0; 
-  }
-  
   
   //---------------------------
   //------SENSING--------------
@@ -856,7 +724,30 @@ class Sprite {
   }
   void ChangePenColourBy(Variable amt){
     penhue+=amt.toFloat();
-  }   
+  }
+  
+  void SetPenShadeTo(int amt){
+    penbri = amt;
+  }
+  void SetPenShadeTo(float amt){
+    penbri = amt;
+  }
+  void SetPenShadeTo(Variable amt){
+    penbri = amt.toFloat();
+  }
+  void ChangePenShadeBy(int amt){
+    penbri-=amt;
+  }
+  void ChangePenShadeBy(float amt){
+    penbri-=amt;
+  }
+  void ChangePenShadeBy(Variable amt){
+    penbri-=amt.toFloat();
+  }
+  
+  void Clear(){
+    penarea = createGraphics(width,height,JAVA2D); 
+  }
   
 
   class Costume{
