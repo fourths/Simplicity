@@ -298,6 +298,7 @@ class Sprite {
         else if (cureffect != POSTERIZE && cureffect != ERODE && cureffect != DILATE) cost.img.filter(cureffect);
         image(cost.img,x,y,wids,heis);
         popMatrix();
+        image(cost.cmask,0,0);
       }
       if (pendown){
         penarea.beginDraw();
@@ -751,12 +752,18 @@ class Sprite {
   
 
   class Costume{
-    PImage img;
+    PImage img,cmask;
     int wids,heis;
     Costume (String cIm){
       img = loadImage(cIm);
       wids = img.width;
       heis = img.height;
+      cmask = createImage(img.width,img.height,RGB);
+      cmask.loadPixels();img.loadPixels();
+      for (int i = 0; i < img.pixels.length; i++){
+        if (img.pixels[i] == 60896) cmask.pixels[i] = color(#FFFFFF);
+        else cmask.pixels[i] = color(#000000);
+      }
     }
   }
 }
