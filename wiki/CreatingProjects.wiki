@@ -2,28 +2,29 @@
 
 This is a guide to help people get started making projects with PSimplicity with the source version available on this website.
 
-
 == Steps ==
-  # Download Simplicity. The source for the latest version is available [http://psimplicity.googlecode.com/svn/trunk/Simplicity.pde here].
-  # Create a new sketch in Processing. Save it and give it a name.
+  # Open a new Processing sketch.
   # Add the following code to your sketch as a template, and then save it again.
 {{{
 // Name of Project
 // Author
 
+Stage stage = new Stage(#FFFFFF);
+Sprite default = new Sprite("http://www.dennydavis.net/clipart/frog3.gif");
+
 void setup(){
   size(480,360);
-  
 }
 void draw(){
-  
-  
+  stage.update();
+  default.update();
 }
 void stop(){
   SoundCleanse();
-  
 }
 }}}
 Customise the comments and size to your liking, and then start programming. 
+  # Open a new tab in the same sketch and copy and paste Simplicity into it. The source for the latest version is available [http://psimplicity.googlecode.com/svn/trunk/Simplicity.pde here].
+  # Start coding!
 
 *Note:* The function `SoundCleanse()` is only necessary if you will be using the `Microphone` or `Sound` classes in your project.
