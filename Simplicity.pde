@@ -154,28 +154,16 @@ int Timer(){
 }
 
 String Join(Variable vval,String sval){
-  String[] tar = new String[2];
-  tar[0] = vval.value.toString();
-  tar[1] = sval;
-  return join(tar,"");
+  return vval.toString()+sval;
 }
 String Join(String sval,Variable vval){
-  String[] tar = new String[2];
-  tar[0] = sval;
-  tar[1] = vval.value.toString();
-  return join(tar,"");
+  return sval+vval.toString();
 }
 String Join(Variable vval,Variable vval2){
-  String[] tar = new String[2];
-  tar[0] = vval.value.toString();
-  tar[1] = vval2.value.toString();
-  return join(tar,"");
+  return vval.toString()+vval2.toString();
 }
 String Join(String sval,String sval2){
-  String[] tar = new String[2];
-  tar[0] = sval;
-  tar[1] = sval2;
-  return join(tar,"");
+  return sval+sval2;
 }
 
 String LetterOf(int loc,String val){
@@ -242,6 +230,7 @@ boolean KeyPressed(int keyc){
 }
 
 //SPRITE CLASS / MOST FUNCTIONS
+ArrayList sprites = new ArrayList();
 class Sprite {
   boolean saying,thinking,hidden,draggable,pendown;
   String saystring;
@@ -262,6 +251,7 @@ class Sprite {
     heis=hei;
     typ=1;
     ssize=100;
+    sprites.add(this);
   }
   Sprite (String im, int xx, int yy){
     x=xx;
@@ -273,6 +263,7 @@ class Sprite {
     costNo=0;
     typ=2;
     ssize=100;
+    sprites.add(this);
   }
   void update(){
     if (!hidden){
@@ -298,7 +289,7 @@ class Sprite {
         else if (cureffect != POSTERIZE && cureffect != ERODE && cureffect != DILATE) cost.img.filter(cureffect);
         image(cost.img,x,y,wids,heis);
         popMatrix();
-        image(cost.cmask,0,0);
+        //image(cost.cmask,0,0);
       }
       if (pendown){
         penarea.beginDraw();
@@ -409,21 +400,30 @@ class Sprite {
     x+=amt;
   }
   void ChangeXBy(Variable amt){
-    x+=int(amt.toString());
+    x+=amt.toFloat();
+  }
+  void ChangeXBy(float amt){
+    x+=amt;
   }
   
   void ChangeYBy(int amt){
     y-=amt;
   }
   void ChangeYBy(Variable amt){
-    y-=int(amt.toString());
+    y-=amt.toFloat();
+  }
+  void ChangeYBy(float amt){
+    y+=amt;
   }
   
   void SetXTo(int amt){
     x=amt;
   }
   void SetXTo(Variable amt){
-    x=int(amt.toString());
+    x=amt.toFloat();
+  }
+  void SetXTo(float amt){
+    x=amt;
   }
   
   void SetYTo(int amt){
@@ -431,6 +431,9 @@ class Sprite {
   }
   void SetYTo(Variable amt){
     y=int(amt.toString());
+  }
+  void SetYTo(float amt){
+    y=amt;
   }
   
   void MoveSteps(int steps){
@@ -474,6 +477,8 @@ class Sprite {
   }
   
   int Direction(){
+    direction = direction%360;
+    if (direction < 0) direction = 360+direction;
     return direction; 
   }
   
@@ -488,6 +493,16 @@ class Sprite {
       if (deltay<0) PointInDirection((180-(degrees(atan(radians(deltax)/radians(deltay))))));
       else PointInDirection(-(degrees(atan(radians(deltax)/radians(deltay)))));
     }
+  }
+  
+  //NEEDS WORK
+  void IfOnEdgeBounce(){
+    if (Touching(EDGE)){
+      ChangeXBy(Sin(Direction())*(-1));
+      if (Touching(EDGE)) PointInDirection(180-Direction()); 
+      else PointInDirection(360-Direction());
+      ChangeXBy(Sin(Direction())*1);
+    } 
   }
   
   //---------------------------
@@ -745,11 +760,6 @@ class Sprite {
   void ChangePenShadeBy(Variable amt){
     penbri-=amt.toFloat();
   }
-  
-  void Clear(){
-    penarea = createGraphics(width,height,JAVA2D); 
-  }
-  
 
   class Costume{
     PImage img,cmask;
@@ -998,6 +1008,10 @@ class Stage{
   ArrayList backgrounds = new ArrayList();
   int bckNo;
   
+  Stage(){
+    penarea = createGraphics(width,height,JAVA2D);
+    backgrounds.add(new Background(#FFFFFF)); 
+  }
   Stage(String im){
     penarea = createGraphics(width,height,JAVA2D);
     backgrounds.add(new Background(im));
@@ -1124,7 +1138,10 @@ class Sound{
   }
   
   void Play(){
-    player.play();
+    if (!player.isPlaying()){
+      player.rewind(); 
+      player.play();
+    }
   }
   
   void Pause(){
@@ -1227,4 +1244,16 @@ void Ask(Variable val, color clr){
 
 String Answer(){
   return finalResponse; 
+}
+
+void Clear(){
+  penarea = createGraphics(width,height,JAVA2D); 
+}
+
+void Update(){
+  stage.update();
+  for (int i = 0; i < sprites.size(); i++){
+    Sprite temp = (Sprite) sprites.get(i);
+    temp.update(); 
+  }
 }
