@@ -7,177 +7,179 @@ import ddf.minim.signals.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
 
-Minim minim = new Minim(this);
-int MouseX,MouseY;
-boolean asking;
-color askcolour;
-String askstring,finalResponse;
-Variable response = new Variable("");
-final static float E = exp(1);
-final static int COLOR = 632;
-final static int EDGE = 226;
-final static int MOUSE = 227;
-final static int LEFTBTN = 520;
-final static int CENTERBTN = 521;
-final static int RIGHTBTN = 522;
-final static int TOPEDGE = 117;
-final static int BOTTOMEDGE = 118;
-final static int LEFTEDGE = 119;
-final static int RIGHTEDGE = 120;
-int timer,lastreset;
-PGraphics penarea;
+public Minim minim = new Minim(this);
+private int MouseX,MouseY;
+private boolean asking;
+private color askcolour;
+private String askstring,finalResponse;
+private Variable response = new Variable("");
+public final static float E = exp(1);
+public final static int COLOR = 632;
+public final static int EDGE = 226;
+public final static int MOUSE = 227;
+public final static int LEFTBTN = 520;
+public final static int CENTERBTN = 521;
+public final static int RIGHTBTN = 522;
+public final static int TOPEDGE = 117;
+public final static int BOTTOMEDGE = 118;
+public final static int LEFTEDGE = 119;
+public final static int RIGHTEDGE = 120;
+private int lastreset;
+private float timer,lasttimer;
+private PGraphics penarea;
 
-void Stop(){
+public void Stop(){
   noLoop();
 }
 
-void Exit(){
+public void Exit(){
   exit(); 
 }
 
-float Sin(float val){
+public float Sin(float val){
   return degrees(sin(val)); 
 }
-float Sin(int val){
+public float Sin(int val){
   return degrees(sin(val)); 
 }
-float Sin(Variable val){
+public float Sin(Variable val){
   return degrees(sin(float(val.toString()))); 
 }
 
-float Cos(float val){
+public float Cos(float val){
   return degrees(cos(val)); 
 }
-float Cos(int val){
+public float Cos(int val){
   return degrees(cos(val)); 
 }
-float Cos(Variable val){
+public float Cos(Variable val){
   return degrees(cos(float(val.toString()))); 
 }
 
-float Tan(float val){
+public float Tan(float val){
   return degrees(tan(val)); 
 }
-float Tan(int val){
+public float Tan(int val){
   return degrees(tan(val)); 
 }
-float Tan(Variable val){
+public float Tan(Variable val){
   return degrees(tan(float(val.toString()))); 
 }
 
-float Asin(float val){
+public float Asin(float val){
   return degrees(asin(val)); 
 }
-float Asin(int val){
+public float Asin(int val){
   return degrees(asin(val)); 
 }
-float Asin(Variable val){
+public float Asin(Variable val){
   return degrees(asin(float(val.toString()))); 
 }
 
-float Acos(float val){
+public float Acos(float val){
   return degrees(acos(val)); 
 }
-float Acos(int val){
+public float Acos(int val){
   return degrees(acos(val)); 
 }
-float Acos(Variable val){
+public float Acos(Variable val){
   return degrees(acos(float(val.toString()))); 
 }
-float Atan(float val){
+
+public float Atan(float val){
   return degrees(atan(val)); 
 }
-float Atan(int val){
+public float Atan(int val){
   return degrees(atan(val)); 
 }
-float Atan(Variable val){
+public float Atan(Variable val){
   return degrees(atan(float(val.toString()))); 
 }
 
-float PickRandom(float low,float high){
+public float PickRandom(float low,float high){
   return random(low, high);
 }
-int PickRandom(int low,int high){
+public int PickRandom(int low,int high){
   return int(random(low, high));
 }
-float PickRandom(float low,int high){
+public float PickRandom(float low,int high){
   return random(low, high);
 }
-float PickRandom(int low,float high){
+public float PickRandom(int low,float high){
   return random(low, high);
 }
-float PickRandom(Variable low,Variable high){
+public float PickRandom(Variable low,Variable high){
   return random(float(low.value.toString()), float(high.value.toString()));
 }
-float PickRandom(Variable low, int high){
+public float PickRandom(Variable low, int high){
   return random(float(low.value.toString()), high);
 }
-float PickRandom(int low, Variable high){
+public float PickRandom(int low, Variable high){
   return random(low, float(high.value.toString()));
 }
-float PickRandom(Variable low, float high){
+public float PickRandom(Variable low, float high){
   return random(float(low.value.toString()), high);
 }
-float PickRandom(float low, Variable high){
+public float PickRandom(float low, Variable high){
   return random(low, float(high.value.toString()));
 }
 
-int Round(int dec){
+public int Round(int dec){
   return round(dec);
 }
-int Round(float dec){
+public int Round(float dec){
   return round(dec); 
 }
-int Round(Variable dec){
+public int Round(Variable dec){
   return round(dec.toFloat());  
 }
 
-int LengthOf(int val){
+public int LengthOf(int val){
   return str(val).length(); 
 }
-int LengthOf(float val){
+public int LengthOf(float val){
   return str(val).length(); 
 }
-int LengthOf(String val){
+public int LengthOf(String val){
   return val.length(); 
 }
-int LengthOf(Variable val){
+public int LengthOf(Variable val){
   return val.value.length(); 
 }
 
-void ResetTimer() {
+public void ResetTimer() {
   lastreset = millis();
 }
 
-int Timer(){
+public float Timer(){
   return timer; 
 }
 
-String Join(Variable vval,String sval){
+public String Join(Variable vval,String sval){
   return vval.toString()+sval;
 }
-String Join(String sval,Variable vval){
+public String Join(String sval,Variable vval){
   return sval+vval.toString();
 }
-String Join(Variable vval,Variable vval2){
+public String Join(Variable vval,Variable vval2){
   return vval.toString()+vval2.toString();
 }
-String Join(String sval,String sval2){
+public String Join(String sval,String sval2){
   return sval+sval2;
 }
 
-String LetterOf(int loc,String val){
+public String LetterOf(int loc,String val){
   return str(val.charAt(loc));
 }
-String LetterOf(int loc,Variable val){
+public String LetterOf(int loc,Variable val){
   return str(val.value.charAt(loc));
 }
 
-boolean MouseDown(){
+public boolean MouseDown(){
   if (mousePressed) return true;
   else return false;
 }
-boolean MouseDown(int btn){
+public boolean MouseDown(int btn){
   if (mousePressed){
     if (btn == LEFTBTN){
       if (mouseButton == LEFT) return true;
@@ -212,7 +214,7 @@ boolean MouseDown(int btn){
 }
 
 //KEY SENSING
-boolean KeyPressed(char lpkey){
+public boolean KeyPressed(char lpkey){
   if(keyPressed){
     if (key == lpkey || key == str(lpkey).toUpperCase().charAt(0)){
       return true;
@@ -221,7 +223,7 @@ boolean KeyPressed(char lpkey){
   }
   else return false;
 }
-boolean KeyPressed(int keyc){
+public boolean KeyPressed(int keyc){
   if (keyPressed){
     if (keyCode == keyc) return true;
     else return false; 
@@ -230,20 +232,19 @@ boolean KeyPressed(int keyc){
 }
 
 //SPRITE CLASS / MOST FUNCTIONS
-ArrayList sprites = new ArrayList();
+private ArrayList sprites = new ArrayList();
 class Sprite {
-  boolean saying,thinking,hidden,draggable,pendown;
-  String saystring;
-  Variable response = new Variable("");
-  int wids,heis,typ,costNo,ssize,cureffect,penshade;
-  float x,y,effectamt;
-  color pencolor;
-  float penhue=0;
-  float pensat=360;
-  float penbri=360;
-  int pensize = 1;
-  int direction = 90;
-  ArrayList costumes = new ArrayList();
+  private boolean saying,thinking,hidden,draggable,pendown,waiting;
+  private String saystring;
+  private int wids,heis,typ,costNo,ssize,cureffect,penshade;
+  private float x,y,effectamt,waitamt,wx,wy,wd,wh,ww,wc;
+  private color pencolor;
+  private float penhue=0;
+  private float pensat=360;
+  private float penbri=360;
+  private int pensize = 1;
+  private int direction = 90;
+  private ArrayList costumes = new ArrayList();
   Sprite (int xx, int yy, int wid, int hei){
     x=xx;
     y=yy;
@@ -265,7 +266,8 @@ class Sprite {
     ssize=100;
     sprites.add(this);
   }
-  void update(){
+  public void update(){
+    if (!waiting){
     if (!hidden){
       if (typ==1){
         fill(255);
@@ -319,30 +321,69 @@ class Sprite {
       }
     }
   }
+  else{
+    if (typ==1){
+        fill(255);
+        pushMatrix();
+        translate(wx,wy);
+        rotate(radians(wd-90));
+        translate(-wx,-wy);
+        //draw rectangle at given coordinates with set heis/wids
+        rect(wx,wy,ww,wh);
+        popMatrix();
+      }
+      else if (typ==2){
+        Costume cost = (Costume) costumes.get(int(wc));
+        wids  = cost.img.width  + (int(ww)  - cost.img.width);
+        heis = cost.img.height + (int(wh) - cost.img.height);
+        pushMatrix();
+        translate(wx,wy);
+        rotate(radians(wd-90));
+        translate(-wx,-wy);  
+        if (effectamt!=-87 && (cureffect != INVERT && cureffect != GRAY)) cost.img.filter(cureffect,effectamt);
+        else if (cureffect != POSTERIZE && cureffect != ERODE && cureffect != DILATE) cost.img.filter(cureffect);
+        image(cost.img,wx,wy,ww,wh);
+        popMatrix();
+        //image(cost.cmask,0,0);
+      }
+    if (timer-lasttimer>waitamt){
+      waiting = false; 
+    }
+  }
+  }
   //BLOCKS
   
   //---------------------------
   //------CONTROL--------------
   //---------------------------
   
-  void Wait(float wait_time){
-    delay(round(wait_time*1000)); 
+  public void Wait(float wait_time){
+    lasttimer = timer;
+    waitamt = wait_time;
+    waiting = true;
+    wx=x;wy=y;ww=wids;wh=heis;wd=direction;wc=CostumeNumber();
   }
-  void Wait(int wait_time){
-    delay(wait_time*1000); 
+  public void Wait(int wait_time){
+    lasttimer = timer;
+    waitamt = wait_time;
+    waiting = true;
+    wx=x;wy=y;ww=wids;wh=heis;wd=direction;wc=CostumeNumber();
   }
-  void Wait(Variable wait_time){
-    delay(round(float(wait_time.toString())*1000)); 
+  public void Wait(Variable wait_time){
+    lasttimer = timer; 
+    waitamt = wait_time.toFloat();
+    waiting = true;
+    wx=x;wy=y;ww=wids;wh=heis;wd=direction;wc=CostumeNumber();
   }
   
-  boolean Clicked(){
+  public boolean Clicked(){
     if (mousePressed && MouseX>x-wids/2 && MouseX<x+wids/2 && MouseY>y-wids/2 && MouseY<y+heis/2){
       return true; 
     }
     else return false;
   }
   
-  boolean Received(Broadcast b){
+  public boolean Received(Broadcast b){
     if (b.sent){
       b.sent = false;
       return true;
@@ -353,39 +394,39 @@ class Sprite {
   //------MOTION---------------
   //---------------------------
   
-  int XPosition(){
+  public int XPosition(){
     return int(x);
   }
   
-  int YPosition(){
+  public int YPosition(){
     return int(y);
   }
   
-  void GoTo(int xx,int yy){
+  public void GoTo(int xx,int yy){
     x=xx;
     y=yy;
   }
-  void GoTo(float xx,float yy){
+  public void GoTo(float xx,float yy){
     x=xx;
     y=yy;
   }
-  void GoTo(Variable xx,Variable yy){
+  public void GoTo(Variable xx,Variable yy){
     x=int(xx.toString());
     y=int(yy.toString());
   }
-  void GoTo(int ms){
+  public void GoTo(int ms){
     if (ms == MOUSE){
       x=mouseX;
       y=mouseY;
     } 
   }
-  void GoTo(Sprite spr){
+  public void GoTo(Sprite spr){
     x=spr.x;
     y=spr.y;
   }
   
   //NEED SECONDS/REDO
-  void GlideSecsTo(int secs, int xx,int yy){
+  public void GlideSecsTo(int secs, int xx,int yy){
     int amt = int(frameRate*50);
     float xspeed = (xx - x)/(secs*amt);
     float yspeed = (yy - y)/(secs*amt);
@@ -396,93 +437,93 @@ class Sprite {
     }
   }
   
-  void ChangeXBy(int amt){
+  public void ChangeXBy(int amt){
     x+=amt;
   }
-  void ChangeXBy(Variable amt){
+  public void ChangeXBy(Variable amt){
     x+=amt.toFloat();
   }
-  void ChangeXBy(float amt){
+  public void ChangeXBy(float amt){
     x+=amt;
   }
   
-  void ChangeYBy(int amt){
+  public void ChangeYBy(int amt){
     y-=amt;
   }
-  void ChangeYBy(Variable amt){
+  public void ChangeYBy(Variable amt){
     y-=amt.toFloat();
   }
-  void ChangeYBy(float amt){
+  public void ChangeYBy(float amt){
     y+=amt;
   }
   
-  void SetXTo(int amt){
+  public void SetXTo(int amt){
     x=amt;
   }
-  void SetXTo(Variable amt){
+  public void SetXTo(Variable amt){
     x=amt.toFloat();
   }
-  void SetXTo(float amt){
+  public void SetXTo(float amt){
     x=amt;
   }
   
-  void SetYTo(int amt){
+  public void SetYTo(int amt){
     y=amt;
   }
-  void SetYTo(Variable amt){
+  public void SetYTo(Variable amt){
     y=int(amt.toString());
   }
-  void SetYTo(float amt){
+  public void SetYTo(float amt){
     y=amt;
   }
   
-  void MoveSteps(int steps){
+  public void MoveSteps(int steps){
     for (int i=0; i<steps; i++){
       x+=5;
     }
   }
-  void MoveSteps(Variable steps){
+  public void MoveSteps(Variable steps){
     for (int i=0; i<int(steps.toString()); i++){
       x+=5;
     }
   }
   
-  void PointInDirection(int dir){
+  public void PointInDirection(int dir){
     direction = dir;
   }
-  void PointInDirection(float dir){
+  public void PointInDirection(float dir){
     direction = int(dir);
   }
-  void PointInDirection(Variable dir){
+  public void PointInDirection(Variable dir){
     direction = int(dir.toString());
   }
   
-  void TurnCWDegrees(int amt){
+  public void TurnCWDegrees(int amt){
     direction += amt; 
   }
-  void TurnCWDegrees(float amt){
+  public void TurnCWDegrees(float amt){
     direction += int(amt); 
   }
-  void TurnCWDegrees(Variable amt){
+  public void TurnCWDegrees(Variable amt){
     direction += int(amt.toString()); 
   }
-  void TurnCCWDegrees(int amt){
+  public void TurnCCWDegrees(int amt){
     direction -= amt; 
   }
-  void TurnCCWDegrees(float amt){
+  public void TurnCCWDegrees(float amt){
     direction -= int(amt); 
   }
-  void TurnCCWDegrees(Variable amt){
+  public void TurnCCWDegrees(Variable amt){
     direction -= int(amt.toString()); 
   }
   
-  int Direction(){
+  public int Direction(){
     direction = direction%360;
     if (direction < 0) direction = 360+direction;
     return direction; 
   }
   
-  void PointTowards(Sprite spr){  
+  public void PointTowards(Sprite spr){  
     int deltax = spr.XPosition()-XPosition(); 
     int deltay = spr.YPosition()-YPosition();
     if (deltay == 0){
@@ -496,112 +537,112 @@ class Sprite {
   }
   
   //NEEDS WORK
-  void IfOnEdgeBounce(){
-    if (Touching(EDGE)){
-      ChangeXBy(Sin(Direction())*(-1));
-      if (Touching(EDGE)) PointInDirection(180-Direction()); 
-      else PointInDirection(360-Direction());
-      ChangeXBy(Sin(Direction())*1);
-    } 
-  }
-  
+//  public void IfOnEdgeBounce(){
+//    if (Touching(EDGE)){
+//      ChangeXBy(Sin(Direction())*(-1));
+//      if (Touching(EDGE)) PointInDirection(180-Direction()); 
+//      else PointInDirection(360-Direction());
+//      ChangeXBy(Sin(Direction())*1);
+//    } 
+//  }
+//  
   //---------------------------
   //------LOOKS----------------
   //---------------------------
   
-  void Say(String vsay){
+  public void Say(String vsay){
     saying = true;
     saystring = vsay;
   }
-  void Say(Variable vsay){
+  public void Say(Variable vsay){
     saying = true;
     saystring = vsay.toString();
   }
   
-  void Think(String vsay){
+  public void Think(String vsay){
     thinking = true;
     saystring = vsay;
   }
-  void Think(Variable vsay){
+  public void Think(Variable vsay){
     thinking = true;
     saystring = vsay.toString();
   }
   
-  void SwitchToCostume(int newCost){
+  public void SwitchToCostume(int newCost){
     costNo = newCost; 
   }
-  void SwitchToCostume(float newCost){
+  public void SwitchToCostume(float newCost){
     costNo = int(newCost); 
   }
-  void SwitchToCostume(Variable newCost){
+  public void SwitchToCostume(Variable newCost){
     costNo = int(newCost.toString()); 
   }
   
-  void NextCostume(){
+  public void NextCostume(){
     if (CostumeNumber()+1>=costumes.size()) SwitchToCostume(0);
     else costNo++;
   }
   
-  void AddCostume(String im){
+  public void AddCostume(String im){
     costumes.add(new Costume(im)); 
   }
   
-  int CostumeNumber(){
+  public int CostumeNumber(){
     return costNo; 
   }
   
-  int Size(){  
+  public int Size(){  
     return ssize;
   }
   
-  void SetSizeTo(int val){
+  public void SetSizeTo(int val){
     Costume cost = (Costume) costumes.get(CostumeNumber());
     wids =((val*cost.wids)/100);
     heis=((val*cost.heis)/100);
     ssize = val;
   }
-  void SetSizeTo(Variable val){
+  public void SetSizeTo(Variable val){
     Costume cost = (Costume) costumes.get(CostumeNumber());
     wids =((int(val.toString())*cost.wids)/100);
     heis=((int(val.toString())*cost.heis)/100);
     ssize = int(val.toString());
   }
   
-  void ChangeSizeBy(int val){
+  public void ChangeSizeBy(int val){
     SetSizeTo(Size()+val);
   }
-  void ChangeSizeBy(Variable val){
+  public void ChangeSizeBy(Variable val){
     SetSizeTo(Size()+int(val.toString()));
   }
   
-  void Show(){
+  public void Show(){
     hidden = false; 
   }
   
-  void Hide(){
+  public void Hide(){
     hidden = true; 
   }
   
   //NEED FIXING;; BLUR, INVERT, others?
   //ADD COLOR, etc. FROM SCRATCH
-  void SetEffectTo(int effect){
+  public void SetEffectTo(int effect){
     effectamt = -87;
     cureffect = effect;
   }
-  void SetEffectTo(int effect,int amt){
+  public void SetEffectTo(int effect,int amt){
     effectamt = amt;
     cureffect = effect;
   }
-  void SetEffectTo(int effect,float amt){
+  public void SetEffectTo(int effect,float amt){
     effectamt = amt;
     cureffect = effect;
   }
-  void SetEffectTo(int effect,Variable amt){
+  public void SetEffectTo(int effect,Variable amt){
     effectamt = amt.toFloat();
     cureffect = effect;
   }
   
-  void ChangeEffectBy(int amt){
+  public void ChangeEffectBy(int amt){
     if (effectamt != -87) effectamt += amt;
     if (effectamt<2 && cureffect == THRESHOLD) effectamt = 2;
   }
@@ -610,7 +651,7 @@ class Sprite {
   //------SENSING--------------
   //---------------------------
   
-  boolean Touching(Sprite spr){
+  public boolean Touching(Sprite spr){
     if ((x-(wids/2)>=spr.x-(spr.wids/2) && y-(heis/2)>=spr.y-(spr.heis/2)) || (x+wids/2>=spr.x-(spr.wids/2) && y+heis/2>=spr.y-(spr.heis/2))){
       if (x-(wids/2)<=spr.x+(spr.wids/2) && y-(wids/2)<=spr.y+(spr.heis/2)){
         if ((x+wids/2)>=spr.x-spr.wids/2 && (y+heis/2)>=spr.y-spr.heis/2){
@@ -625,7 +666,7 @@ class Sprite {
     }
     else return false;
   }
-  boolean Touching(int val){ 
+  public boolean Touching(int val){ 
     if (val == MOUSE){
        if (MouseX>=x-wids/2 && MouseY>=y-heis/2 && MouseX<=x+wids/2 && MouseY<=y+heis/2){
          return true; 
@@ -665,105 +706,105 @@ class Sprite {
     else return false;
   }
   
-  float Distance(Sprite spr){
+  public float Distance(Sprite spr){
     return dist(x,y,spr.x,spr.y);
   }
   
-  int MouseX(){
+  public int MouseX(){
     return MouseX; 
   }
-  int MouseY(){
+  public int MouseY(){
     return MouseY; 
   }
   
   // PEN FUNCTIONS pls
-  void PenDown(){
+  public void PenDown(){
     pendown = true; 
   }
   
-  void PenUp(){
+  public void PenUp(){
     pendown = false;
   }
   
-  void SetPenSizeTo(int amt){
+  public void SetPenSizeTo(int amt){
     pensize = amt;
   }
-  void SetPenSizeTo(float amt){
+  public void SetPenSizeTo(float amt){
     pensize = int(amt);
   }
-  void SetPenSizeTo(Variable amt){
+  public void SetPenSizeTo(Variable amt){
     pensize = amt.toInt();
   }
   
-  void ChangePenSizeBy(int amt){
+  public void ChangePenSizeBy(int amt){
     pensize += amt;
   }
-  void ChangePenSizeBy(float amt){
+  public void ChangePenSizeBy(float amt){
     pensize += int(amt);
   }
-  void ChangePenSizeBy(Variable amt){
+  public void ChangePenSizeBy(Variable amt){
     pensize += amt.toInt();
   }
   
-  void SetPenColorTo(int amt){
+  public void SetPenColorTo(int amt){
     penhue = amt;
   }
-  void SetPenColorTo(float amt){
+  public void SetPenColorTo(float amt){
     penhue = amt;
   }
-  void SetPenColorTo(Variable amt){
+  public void SetPenColorTo(Variable amt){
     penhue = amt.toFloat();
   }
-  void ChangePenColorBy(int amt){
+  public void ChangePenColorBy(int amt){
     penhue+=amt;
   }
-  void ChangePenColorBy(float amt){
+  public void ChangePenColorBy(float amt){
     penhue+=amt;
   }
-  void ChangePenColorBy(Variable amt){
+  public void ChangePenColorBy(Variable amt){
     penhue+=amt.toFloat();
   }  
-  void SetPenColourTo(int amt){
+  public void SetPenColourTo(int amt){
     penhue = amt;
   }
-  void SetPenColourTo(float amt){
+  public void SetPenColourTo(float amt){
     penhue = amt;
   }
-  void SetPenColourTo(Variable amt){
+  public void SetPenColourTo(Variable amt){
     penhue = amt.toFloat();
   }
-  void ChangePenColourBy(int amt){
+  public void ChangePenColourBy(int amt){
     penhue+=amt;
   }
-  void ChangePenColourBy(float amt){
+  public void ChangePenColourBy(float amt){
     penhue+=amt;
   }
-  void ChangePenColourBy(Variable amt){
+  public void ChangePenColourBy(Variable amt){
     penhue+=amt.toFloat();
   }
   
-  void SetPenShadeTo(int amt){
+  public void SetPenShadeTo(int amt){
     penbri = amt;
   }
-  void SetPenShadeTo(float amt){
+  public void SetPenShadeTo(float amt){
     penbri = amt;
   }
-  void SetPenShadeTo(Variable amt){
+  public void SetPenShadeTo(Variable amt){
     penbri = amt.toFloat();
   }
-  void ChangePenShadeBy(int amt){
+  public void ChangePenShadeBy(int amt){
     penbri-=amt;
   }
-  void ChangePenShadeBy(float amt){
+  public void ChangePenShadeBy(float amt){
     penbri-=amt;
   }
-  void ChangePenShadeBy(Variable amt){
+  public void ChangePenShadeBy(Variable amt){
     penbri-=amt.toFloat();
   }
 
-  class Costume{
-    PImage img,cmask;
-    int wids,heis;
+  private class Costume{
+    public PImage img,cmask;
+    public int wids,heis;
     Costume (String cIm){
       img = loadImage(cIm);
       wids = img.width;
@@ -778,8 +819,8 @@ class Sprite {
   }
 }
 
-class Broadcast {
-  boolean sent = false;
+public class Broadcast {
+  private boolean sent = false;
   Broadcast (){
   }
   void Send(){
@@ -792,8 +833,8 @@ class Broadcast {
   }
 }
 
-class Variable{
-  StringBuffer value;
+public class Variable{
+  public StringBuffer value;
   Variable(){
     value = new StringBuffer("0");
   }
@@ -831,46 +872,46 @@ class Variable{
   
   //CONVERSIONS
   
-  int toInt(){
+  public int toInt(){
     return int(value.toString());
   }
-  float toFloat(){
+  public float toFloat(){
     return float(value.toString()); 
   }
-  boolean toBoolean(){
+  public boolean toBoolean(){
     if (value.toString() == "1" || value.toString() == "true" || value.toString() == "True" || value.toString() == "TRUE"){
       return true;
     }
     else return false;
   }
-  String toString(){
+  public String toString(){
     return value.toString();
   }
   
-  boolean equals(int eq){
+  public boolean equals(int eq){
     if (eq == int(value.toString())) return true;
     else return false;
   }
-  boolean equals(float eq){
+  public boolean equals(float eq){
     if (eq == float(value.toString())) return true;
     else return false;
   }
-  boolean equals(boolean eq){
+  public boolean equals(boolean eq){
     if (eq == boolean(value.toString())) return true;
     else return false;
   }
-  boolean equals(String eq){
+  public boolean equals(String eq){
     if (eq.equals(value.toString())) return true;
     else return false;
   }
-  boolean equals(Variable eq){
+  public boolean equals(Variable eq){
     if (eq.value.toString().equals(value.toString())) return true;
     else return false;
   }
 }
 
-class List{
-  ArrayList values;
+public class List{
+  public ArrayList values;
   //CONSTRUCTORS
   List(){
     values = new ArrayList();
@@ -896,77 +937,77 @@ class List{
   }
   
   //FUNCTIONS
-  void AddTo(int val){
+  public void AddTo(int val){
     Variable tvar = new Variable(val);
     values.add(tvar);
   }
-  void AddTo(float val){
+  public void AddTo(float val){
     Variable tvar = new Variable(val);
     values.add(tvar);
   }
-  void AddTo(String val){
+  public void AddTo(String val){
     Variable tvar = new Variable(val);
     values.add(tvar);
   }
-  void AddTo(Variable val){
+  public void AddTo(Variable val){
     values.add(val);
   }
   
-  void DeleteOf(int val){
+  public void DeleteOf(int val){
     values.remove(val);
   }
-  void DeleteOf(float val){
+  public void DeleteOf(float val){
     values.remove(int(val));
   }
-  void DeleteOf(Variable val){
+  public void DeleteOf(Variable val){
     values.remove(val.toInt());
   }
   
-  void InsertAt(int val,int loc){
+  public void InsertAt(int val,int loc){
     Variable tvar = new Variable(val);
     values.add(loc,tvar);
   }
-  void InsertAt(float val,int loc){
+  public void InsertAt(float val,int loc){
     Variable tvar = new Variable(val);
     values.add(loc,tvar);
   }
-  void InsertAt(String val,int loc){
+  public void InsertAt(String val,int loc){
     Variable tvar = new Variable(val);
     values.add(loc,tvar);
   }
-  void InsertAt(Variable val,int loc){
+  public void InsertAt(Variable val,int loc){
     values.add(loc,val);
   }
   
-  void ReplaceWith(int loc, int val){
+  public void ReplaceWith(int loc, int val){
     Variable tvar = new Variable(val);
     values.remove(loc);
     values.add(loc,tvar);
   }
-  void ReplaceWith(int loc, float val){
+  public void ReplaceWith(int loc, float val){
     Variable tvar = new Variable(val);
     values.remove(loc);
     values.add(loc,tvar);
   }
-  void ReplaceWith(int loc, String val){
+  public void ReplaceWith(int loc, String val){
     Variable tvar = new Variable(val);
     values.remove(loc);
     values.add(loc,tvar);
   }
-  void ReplaceWith(int loc, Variable val){
+  public void ReplaceWith(int loc, Variable val){
     values.remove(loc);
     values.add(loc,val);
   }
   
-  Variable Item(int loc){
+  public Variable Item(int loc){
     return (Variable) values.get(loc); 
   }
   
-  int Length(){
+  public int Length(){
     return values.size(); 
   }
   
-  boolean Contains(String val){
+  public boolean Contains(String val){
     for (int i=0; i<values.size(); i++){
       Variable tvar = (Variable) values.get(i);
       if (tvar.value.toString().equals(val)){
@@ -975,7 +1016,7 @@ class List{
     }
     return false;
   }
-  boolean Contains(int val){
+  public boolean Contains(int val){
     for (int i=0; i<values.size(); i++){
       Variable tvar = (Variable) values.get(i);
       if (int(tvar.value.toString()) == val){
@@ -984,7 +1025,7 @@ class List{
     }
     return false;
   }
-  boolean Contains(float val){
+  public boolean Contains(float val){
     for (int i=0; i<values.size(); i++){
       Variable tvar = (Variable) values.get(i);
       if (float(tvar.value.toString()) == val){
@@ -993,7 +1034,7 @@ class List{
     }
     return false;
   }
-  boolean Contains(Variable val){
+  public boolean Contains(Variable val){
     for (int i=0; i<values.size(); i++){
       Variable tvar = (Variable) values.get(i);
       if ((Variable) values.get(i) == val){
@@ -1004,8 +1045,8 @@ class List{
   }
 }
 
-class Stage{
-  ArrayList backgrounds = new ArrayList();
+public class Stage{
+  public ArrayList backgrounds = new ArrayList();
   int bckNo;
   
   Stage(){
@@ -1021,15 +1062,15 @@ class Stage{
     backgrounds.add(new Background(clr)); 
   }
   
-  void update(){
+  public void update(){
     translate(width/2,height/2);
     imageMode(CENTER);
     Background bck = (Background) backgrounds.get(BackgroundNumber());
-    if (bck.img != null) background(bck.img);
+    if (bck.img.width == WIDTH && bck.img.height == HEIGHT) background(bck.img);
     else background(bck.colour);
     MouseX=mouseX-(width/2);
     MouseY=mouseY-(height/2);
-    timer = int((millis()/100f))-lastreset;
+    timer = (millis()/100f)-lastreset;
     penarea.beginDraw();
     penarea.endDraw();
     if (penarea != null) image(penarea,0,0);
@@ -1047,12 +1088,13 @@ class Stage{
     }
   }
   
-  class Background{
-    PImage img;
-    color colour;
-    int w,h;
+  public class Background{
+    public PImage img;
+    public color colour;
+    public int w,h;
     Background (String im){
       img = loadImage(im);
+      colour = color(#FFFFFF);
       w = width;
       h = height;
     }
@@ -1063,32 +1105,32 @@ class Stage{
     }
   }
   
-  void NextBackground(){
+  public void NextBackground(){
     if (BackgroundNumber()+1>=backgrounds.size()) SwitchToBackground(0);
     else bckNo++;
   }
   
-  void SwitchToBackground(int newbck){
+  public void SwitchToBackground(int newbck){
     bckNo = newbck;
   }
-  void SwitchToBackground(float newbck){
+  public void SwitchToBackground(float newbck){
     bckNo = int(newbck);
   }
-  void SwitchToBackground(String newbck){
+  public void SwitchToBackground(String newbck){
     bckNo = int(newbck);
   }
-  void SwitchToBackground(Variable newbck){
+  public void SwitchToBackground(Variable newbck){
     bckNo = int(newbck.value.toString());
   }
   
-  void AddBackground(String im){
+  public void AddBackground(String im){
     backgrounds.add(new Background(im)); 
   }
-  void AddBackground(color clr){
+  public void AddBackground(color clr){
     backgrounds.add(new Background(clr));
   }
   
-  int BackgroundNumber(){
+  public int BackgroundNumber(){
     return bckNo; 
   } 
 }
@@ -1101,9 +1143,9 @@ class Stage{
 ///////////////////////
 ///////////////////////
 
-ArrayList sounds = new ArrayList();
-class Sound{
-  AudioPlayer player;
+private ArrayList sounds = new ArrayList();
+public class Sound{
+  private AudioPlayer player;
   Sound(String sndlnk){
     player = minim.loadFile(sndlnk);
     sounds.add(this);
@@ -1113,48 +1155,48 @@ class Sound{
     sounds.add(this);
   }
   
-  float Volume(){
+  public float Volume(){
     return player.getGain();
   }
   
-  void SetVolumeTo(int val){
+  public void SetVolumeTo(int val){
     player.setGain(val);
   }
-  void SetVolumeTo(float val){
+  public void SetVolumeTo(float val){
     player.setGain(val);
   }
-  void SetVolumeTo(Variable val){
+  public void SetVolumeTo(Variable val){
     player.setGain(float(val.value.toString()));
   }
   
-  void ChangeVolumeBy(int val){
+  public void ChangeVolumeBy(int val){
     SetVolumeTo(Volume()+val);
   }
-  void ChangeVolumeBy(float val){
+  public void ChangeVolumeBy(float val){
     SetVolumeTo(Volume()+val);
   }
-  void ChangeVolumeBy(Variable val){
+  public void ChangeVolumeBy(Variable val){
     SetVolumeTo(Volume()+float(val.value.toString()));
   }
   
-  void Play(){
+  public void Play(){
     if (!player.isPlaying()){
       player.rewind(); 
       player.play();
     }
   }
   
-  void Pause(){
+  public void Pause(){
     player.pause(); 
   }
   
-  void Stop(){
+  public void Stop(){
     player.rewind();
     player.pause();
   }
 }
 
-void StopAllSounds(){
+public void StopAllSounds(){
   for (int i = 0; i<sounds.size(); i++){
     Sound fsnd = (Sound) sounds.get(i);
     if (fsnd.player.isPlaying()){
@@ -1163,8 +1205,8 @@ void StopAllSounds(){
   }
 }
 
-ArrayList mics = new ArrayList();
-class Microphone{
+private ArrayList mics = new ArrayList();
+public class Microphone{
   AudioInput mic;
   Microphone(){
     if (minim.getLineIn() != null){
@@ -1172,18 +1214,18 @@ class Microphone{
       mics.add(this);
     }
   }
-  int ln=-1;
-  int Loudness(){
+  private int ln=-1;
+  public int Loudness(){
     if (mic != null){ ln++; if (ln==1024) ln=0; return int(map(abs(mic.mix.get(ln)),0,1,0,100)); }
     else return 0;
   }
-  boolean Loud(){
+  public boolean Loud(){
     if (Loudness()>30) return true;
     else return false;
   }
 }
 
-void SoundCleanse(){
+public void SoundCleanse(){
   for (int i = 0; i<sounds.size(); i++){
     Sound fsnd = (Sound) sounds.get(i);
     fsnd.player.close();
@@ -1196,7 +1238,7 @@ void SoundCleanse(){
   super.stop();
 }
 
-void keyTyped(){
+public void keyTyped(){
   if (key == ENTER || key == RETURN){
     finalResponse = response.toString();
     asking = false; 
@@ -1209,7 +1251,7 @@ void keyTyped(){
   else if (response.value.length()<34 && key != SHIFT && key != CODED && key != ALT && key != CONTROL && key != ESC && key != TAB) response.value.append(key); 
 }
 
-void Ask(String val){
+public void Ask(String val){
   if (!asking){
     response.value.delete(0,response.value.length());
     asking = true;
@@ -1217,7 +1259,7 @@ void Ask(String val){
     askcolour = color(0,0,0);
   }
 }
-void Ask(Variable val){
+public void Ask(Variable val){
   if (!asking){
     response.value.delete(0,response.value.length());
     asking = true;
@@ -1225,7 +1267,7 @@ void Ask(Variable val){
     askcolour = color(0,0,0);
   }
 }
-void Ask(String val, color clr){
+public void Ask(String val, color clr){
   if (!asking){
     response.value.delete(0,response.value.length());
     asking = true;
@@ -1233,7 +1275,7 @@ void Ask(String val, color clr){
     askcolour = clr;
   }
 }
-void Ask(Variable val, color clr){
+public void Ask(Variable val, color clr){
   if (!asking){
     response.value.delete(0,response.value.length());
     asking = true;
@@ -1242,15 +1284,15 @@ void Ask(Variable val, color clr){
   }
 }
 
-String Answer(){
+public String Answer(){
   return finalResponse; 
 }
 
-void Clear(){
+public void Clear(){
   penarea = createGraphics(width,height,JAVA2D); 
 }
 
-void Update(){
+public void Update(){
   stage.update();
   for (int i = 0; i < sprites.size(); i++){
     Sprite temp = (Sprite) sprites.get(i);
