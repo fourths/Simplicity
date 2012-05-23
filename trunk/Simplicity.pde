@@ -1,5 +1,10 @@
 //Simplicity
-//code by veggieman and transparent
+//in-development alpha
+//5/23/2012
+//code by veggieman
+//with contributions from transparent
+//and countless thanks to scratch wiki
+//and the squeak code of scratch itself
 
 //minim for sound
 import ddf.minim.*;
@@ -236,7 +241,7 @@ private ArrayList sprites = new ArrayList();
 class Sprite {
   private boolean saying,thinking,hidden,draggable,pendown,waiting;
   private String saystring;
-  private int wids,heis,typ,costNo,ssize,cureffect,penshade;
+  private int wids,heis,typ,costNo,ssize,cureffect,penshade,layer;
   private float x,y,effectamt,waitamt,wx,wy,wd,wh,ww,wc;
   private color pencolor;
   private float penhue=0;
@@ -253,6 +258,7 @@ class Sprite {
     typ=1;
     ssize=100;
     sprites.add(this);
+    layer=sprites.size()-1;
   }
   Sprite (String im, int xx, int yy){
     x=xx;
@@ -265,6 +271,7 @@ class Sprite {
     typ=2;
     ssize=100;
     sprites.add(this);
+    layer=sprites.size()-1;
   }
   public void update(){
     if (!waiting){
@@ -645,6 +652,38 @@ class Sprite {
   public void ChangeEffectBy(int amt){
     if (effectamt != -87) effectamt += amt;
     if (effectamt<2 && cureffect == THRESHOLD) effectamt = 2;
+  }
+  
+  public void GoToFront(){
+    sprites.remove(layer);
+    sprites.add(this);
+    layer = sprites.size()-1;
+  }
+  
+  public void GoBackLayers(int amt){
+    sprites.remove(layer);
+    layer = constrain(layer-amt,0,sprites.size()-1);
+    sprites.add(layer,this);
+  }
+  public void GoBackLayers(Variable amt){
+    sprites.remove(layer);
+    layer = constrain(layer-amt.toInt(),0,sprites.size()-1);
+    sprites.add(layer,this);
+  }
+  
+  public void SetLayerTo(int amt){
+    sprites.remove(layer);
+    layer = constrain(amt,0,sprites.size()-1);
+    sprites.add(layer,this);
+  }
+  public void SetLayerTo(Variable amt){
+    sprites.remove(layer);
+    layer = constrain(amt.toInt(),0,sprites.size()-1);
+    sprites.add(layer,this);
+  }
+  
+  public int Layer(){
+    return layer; 
   }
   
   //---------------------------
@@ -1045,6 +1084,7 @@ public class List{
   }
 }
 
+private ArrayList stages = new ArrayList();
 public class Stage{
   public ArrayList backgrounds = new ArrayList();
   int bckNo;
@@ -1052,21 +1092,24 @@ public class Stage{
   Stage(){
     penarea = createGraphics(width,height,JAVA2D);
     backgrounds.add(new Background(#FFFFFF)); 
+    stages.add(this);
   }
   Stage(String im){
     penarea = createGraphics(width,height,JAVA2D);
     backgrounds.add(new Background(im));
+    stages.add(this);
   }
   Stage(color clr){
     penarea = createGraphics(width,height,JAVA2D);
     backgrounds.add(new Background(clr)); 
+    stages.add(this);
   }
   
   public void update(){
     translate(width/2,height/2);
     imageMode(CENTER);
     Background bck = (Background) backgrounds.get(BackgroundNumber());
-    if (bck.img.width == WIDTH && bck.img.height == HEIGHT) background(bck.img);
+    if (bck.img != null && bck.img.width == WIDTH && bck.img.height == HEIGHT) background(bck.img);
     else background(bck.colour);
     MouseX=mouseX-(width/2);
     MouseY=mouseY-(height/2);
@@ -1097,6 +1140,7 @@ public class Stage{
       colour = color(#FFFFFF);
       w = width;
       h = height;
+      img.resize(w,h);
     }
     Background (color clr){
       colour = clr;
@@ -1293,6 +1337,7 @@ public void Clear(){
 }
 
 public void Update(){
+  Stage stage = (Stage) stages.get(0);
   stage.update();
   for (int i = 0; i < sprites.size(); i++){
     Sprite temp = (Sprite) sprites.get(i);
