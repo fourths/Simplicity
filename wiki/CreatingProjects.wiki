@@ -10,7 +10,7 @@ This is a guide to help people get started making projects with PSimplicity with
 // Author
 
 Stage stage = new Stage(#FFFFFF);
-Sprite default = new Sprite("http://www.dennydavis.net/clipart/frog3.gif");
+Sprite mySprite = new Sprite("http://www.majhost.com/gallery/veggieman/scans/frog.png");
 
 void setup(){
   size(480,360);
@@ -25,7 +25,5 @@ void stop(){
 Customise the comments and size to your liking, and then start programming. 
   # Open a new tab in the same sketch and copy and paste Simplicity into it. The source for the latest version is available [http://psimplicity.googlecode.com/svn/trunk/Simplicity.pde here].
   # Start coding!
-
-*Note:* The Stage must be called `stage` (for now) or you will get an error.
 
 *Note:* The function `SoundCleanse()` is only necessary if you will be using the `Microphone` or `Sound` classes in your project.
