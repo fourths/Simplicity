@@ -1,6 +1,6 @@
 //Simplicity
 //in-development alpha
-//5/23/2012
+//5/24/2012
 //code by veggieman
 //with contributions from transparent
 //and countless thanks to scratch wiki
@@ -839,6 +839,17 @@ class Sprite {
   }
   public void ChangePenShadeBy(Variable amt){
     penbri-=amt.toFloat();
+  }
+  
+  public void Stamp(){
+    Costume cost = (Costume) costumes.get(CostumeNumber());
+    penarea.beginDraw();
+    penarea.pushMatrix();
+    penarea.imageMode(CENTER);
+    penarea.translate(width/2,height/2);
+    penarea.image(cost.img,int(x),int(y));
+    penarea.popMatrix();
+    penarea.endDraw();
   }
 
   private class Costume{
