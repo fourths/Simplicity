@@ -10,7 +10,7 @@ This is a guide to help people get started making projects with PSimplicity with
 // Author
 
 Stage stage = new Stage(#FFFFFF);
-Sprite mySprite = new Sprite("http://www.majhost.com/gallery/veggieman/scans/frog.png");
+Sprite mySprite = new Sprite("http://www.majhost.com/gallery/veggieman/scans/frog.png",0,0);
 
 void setup(){
   size(480,360);
