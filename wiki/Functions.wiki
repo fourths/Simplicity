@@ -1,10 +1,26 @@
-#summary All of the functions available in Simplicity currently
+#summary All of the functions available in Simplicity.
 
 _*Note:* This page is in progress._
 
 _*Note:* These examples are only code snippets and will not run on their own._
 
 == Global functions ==
+
+===Update()===
+{{{
+void draw(){
+  Update();
+}
+}}}
+Call this function in `draw()` to draw all the sprites and the stage. Otherwise, nothing will be drawn unless you call each `Sprite` and `Stage` object's `update()` function individually (although this will ignore layers and draw in the order they're called in).
+
+===!SoundCleanse()===
+{{{
+void stop(){
+  SoundCleanse();
+}
+}}}
+Call this function in `stop()` when using `Microphone` or `Sound` objects in a program. Don't use `stop()` otherwise unless you're an advanced user and understand how, because it won't close the program properly.
 
 ===Stop()===
 {{{
@@ -32,7 +48,7 @@ void keyPressed(){
 }
 }}}
 
-===PickRandom()===
+===!PickRandom()===
 {{{
 Sprite frog;
 Variable maxY;
@@ -54,7 +70,7 @@ void setup(){
 }}}
 This function returns its input rounded to the the nearest whole number. It takes an int, a float, or a Variable.
 
-===LengthOf()===
+===!LengthOf()===
 {{{
 void keyPressed(){
   if(KeyPressed(UP)) frog.ChangeYBy(LengthOf("robots"));
@@ -62,7 +78,7 @@ void keyPressed(){
 }}}
 This function returns the length of any String, int, float, or Variable that it is given. 
 
-===ResetTimer()===
+===!ResetTimer()===
 {{{
 void draw(){
   frog.SetXTo(Timer());
@@ -88,14 +104,14 @@ Variable helloworld = new Variable(Join(var1,str1));
 }}}
 This function returns a string with its two inputs combined. It can only take Variables and Strings, so any integers or floats must be converted before being joined with this function.
 
-===LetterOf()===
+===!LetterOf()===
 {{{
 Variable word = new Variable("wryness");
 Variable letter = new Variable(LetterOf(3,word));
 }}}
 This function returns a string with the specified letter of a String or Variable. It currently only allows an int to specify the letter number, but Variable support is planned.
 
-===MouseDown()===
+===!MouseDown()===
 {{{
 void draw(){
   if (MouseDown()) frog.Stamp();
@@ -109,7 +125,7 @@ void draw(){
 }}}
 This function returns a boolean of whether the mouse is down or not. It can also take `LEFTBTN`, `RIGHTBTN`, or `CENTERBTN` to specify which button it should specifically sense for.
 
-===KeyPressed()===
+===!KeyPressed()===
 {{{
 void keyPressed(){
   if (KeyPressed('s')) frog.Stamp();
@@ -120,18 +136,20 @@ This function returns a boolean of whether the specified key is pressed. If it i
 
 _*Note:* For cross-platform compatibility between Macs and PCs, remember to use_ `if (KeyPressed(ENTER) || KeyPressed(RETURN))` _for the enter/return key and_ `if (KeyPressed(DELETE) || KeyPressed(BACKSPACE))` _for the backspace/delete key._
 
-===SoundCleanse()===
+===Ask()===
 {{{
-void stop(){
-  SoundCleanse();
+void keyPressed(){
+  if (KeyPressed(TAB)) Ask("What is the meaning of life?");
 }
 }}}
-Call this function in `stop()` when using `Microphone` or `Sound` objects in a program. Don't use `stop()` otherwise unless you're an advanced user and understand how, because it won't close the program properly.
+This function will display a white text box with a blue outline and the String or Variable given prompted above it. It can take one input, the question as a String or Variable, or two with the second being the colour of the prompt text (the default is black). The user's answer can be accessed with `Answer()`.
 
-===Update()===
+===Answer()===
 {{{
-void draw(){
-  Update();
+Variable name;
+void setup(){
+  Ask("What's your name?");
+  name = new Variable(Answer());
 }
 }}}
-Call this function in `draw()` to draw all the sprites and the stage. Otherwise, nothing will be drawn unless you call each `Sprite` and `Stage` object's `update()` function individually (although this will ignore layers and draw in the order they're called in).
+This function returns a string with the most recent answer given after the enter key is pressed after using `Ask()`.
