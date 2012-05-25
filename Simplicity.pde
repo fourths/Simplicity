@@ -1093,6 +1093,34 @@ public class List{
     }
     return false;
   }
+  
+  public String strCast(){
+    StringBuffer vals = new StringBuffer();
+    boolean space = false;
+    if (values == null) return "";
+    else{
+      for (int i = 0; i<values.size(); i++){
+        Variable tvar = (Variable) values.get(i);
+        for (int j = 0; j<LengthOf(tvar); j++){
+          if (LetterOf(j,tvar) == " "){ space = true; break; }
+        }
+      }
+      if (space){
+        //needs space fix
+        for (int i = 0; i<values.size(); i++){
+          Variable tvar = (Variable) values.get(i);
+          vals.append(tvar.toString()+"  ");
+        }
+      }
+      else {
+        for (int i = 0; i<values.size(); i++){
+          Variable tvar = (Variable) values.get(i);
+          vals.append(tvar.toString());
+        }
+      }
+    } 
+    return vals.toString();
+  }
 }
 
 private ArrayList stages = new ArrayList();
