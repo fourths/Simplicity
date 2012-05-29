@@ -1,6 +1,6 @@
 //Simplicity
 //in-development alpha
-//5/24/2012
+//5/29/2012
 //code by veggieman
 //with contributions from transparent
 //and countless thanks to scratch wiki
@@ -1102,14 +1102,13 @@ public class List{
       for (int i = 0; i<values.size(); i++){
         Variable tvar = (Variable) values.get(i);
         for (int j = 0; j<LengthOf(tvar); j++){
-          if (LetterOf(j,tvar) == " "){ space = true; break; }
+          if (LetterOf(j,tvar.toString()).charAt(0) == ' '){ space = true;  break; }
         }
       }
       if (space){
-        //needs space fix
         for (int i = 0; i<values.size(); i++){
           Variable tvar = (Variable) values.get(i);
-          vals.append(tvar.toString()+"  ");
+          vals.append(tvar.toString()+" ");
         }
       }
       else {
@@ -1120,6 +1119,18 @@ public class List{
       }
     } 
     return vals.toString();
+  }
+  
+  public float numCast(){
+    StringBuffer vals = new StringBuffer();
+    if (values == null) return 0;
+    else{
+      for (int i = 0; i<values.size(); i++){
+        Variable tvar = (Variable) values.get(i);
+        vals.append(tvar.toString());
+      }
+    }
+    return float(vals.toString());
   }
 }
 
