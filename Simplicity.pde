@@ -179,6 +179,12 @@ public String LetterOf(int loc,String val){
 public String LetterOf(int loc,Variable val){
   return str(val.value.charAt(loc));
 }
+public String LetterOf(Variable loc,String val){
+  return str(val.charAt(loc.toInt()));
+}
+public String LetterOf(Variable loc,Variable val){
+  return str(val.value.charAt(loc.toInt()));
+}
 
 public boolean MouseDown(){
   if (mousePressed) return true;
@@ -1393,4 +1399,14 @@ public void Update(){
     Sprite temp = (Sprite) sprites.get(i);
     temp.update(); 
   }
+}
+private int penimgs = 0;
+public void PenScreenshot(){
+  String folderpath = selectFolder("Choose a folder to save to..."); 
+  if (penarea != null && folderpath != null) penarea.save(folderpath+"\\pen"+penimgs+".png");
+}
+private int scimgs = 0;
+public void Screenshot(){
+  String folderpath = selectFolder("Choose a folder to save to..."); 
+  if (penarea != null && folderpath != null) save(folderpath+"\\screen"+scimgs+".png");
 }
