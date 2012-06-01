@@ -46,17 +46,32 @@ import processing.core.*;
 public class Sprite {
 	//SPRITE CLASS / MOST FUNCTIONS
 	static PApplet parent;
-	  private boolean saying,thinking,hidden,draggable,pendown,waiting;
-	  private String saystring;
-	  private int wids,heis,typ,costNo,ssize,cureffect,penshade,layer;
-	  private float x,y,effectamt,waitamt,wx,wy,wd,wh,ww,wc;
-	  private int pencolor;
-	  private float penhue=0;
-	  private float pensat=360;
-	  private float penbri=360;
-	  private int pensize = 1;
-	  private int direction = 90;
-	  private ArrayList costumes = new ArrayList();
+	  private static boolean saying,thinking,hidden,draggable,pendown,waiting;
+	  private static String saystring;
+	  private static int wids,heis,typ,costNo,ssize,cureffect,penshade,layer;
+	  private static float x,y,effectamt,waitamt,wx,wy,wd,wh,ww,wc;
+	  private static int pencolor;
+	  private static float penhue=0;
+	  private static float pensat=360;
+	  private static float penbri=360;
+	  private static int pensize = 1;
+	  private static int direction = 90;
+	  private static ArrayList costumes = new ArrayList();
+	  public Sprite (){
+		    x=0;
+		    y=0;
+		    costNo=0;
+		    typ=2;
+		    ssize=100;
+		    Project.sprites.add(this);
+		    layer=Project.sprites.size()-1;
+		    parent = Project.parent;
+		    //parent.println("test");
+		    costumes.add(new Costume("http://www.majhost.com/gallery/veggieman/scans/frog.png"));
+		    Costume cost = (Costume) costumes.get(0);
+		    wids=cost.wids;
+		    heis=cost.heis;
+	  }
 	  public Sprite (int xx, int yy, int wid, int hei){
 	    x=xx;
 	    y=yy;
@@ -405,7 +420,7 @@ public class Sprite {
 	    costumes.add(new Costume(im)); 
 	  }
 	  
-	  public int CostumeNumber(){
+	  public static int CostumeNumber(){
 	    return costNo; 
 	  }
 	  
@@ -501,20 +516,50 @@ public class Sprite {
 	  //------SENSING--------------
 	  //---------------------------
 	  
-	  public boolean Touching(Sprite spr){
-	    if ((x-(wids/2)>=spr.x-(spr.wids/2) && y-(heis/2)>=spr.y-(spr.heis/2)) || (x+wids/2>=spr.x-(spr.wids/2) && y+heis/2>=spr.y-(spr.heis/2))){
-	      if (x-(wids/2)<=spr.x+(spr.wids/2) && y-(wids/2)<=spr.y+(spr.heis/2)){
-	        if ((x+wids/2)>=spr.x-spr.wids/2 && (y+heis/2)>=spr.y-spr.heis/2){
-	          return true; 
-	        }
-	        if ((x+wids/2<=spr.x+spr.wids/2) && (y+wids/2<=spr.y+spr.heis/2)){
-	          return true;
-	        }
-	        else return false;
+	  public static boolean Touching( Sprite spr /*PImage img1, PImage img2, PVector pos1, PVector pos2, int nAlphaThreshold*/ ) {
+	      // Find image indices of overlap between two image rectangles.
+	      // Indices are zero-based, from top-left corners:      
+	      int ixLow1,  ixLow2; 
+	      int iyLow1,  iyLow2; 
+	      int ixHigh1, ixHigh2; 
+	      int iyHigh1, iyHigh2;           
+	      if ( x <= spr.x ) { ixLow1 = parent.round( spr.x - x ); ixLow2 = 0;                        }
+	      else                    { ixLow1 = 0;                        ixLow2 = parent.round( x - spr.x ); }      
+	      if ( x + wids - 1 >= spr.x ) ixHigh1 = parent.round( parent.min( wids - 1, spr.x + spr.wids - 1 - x ) );
+	      else                                     ixHigh1 = parent.round( spr.x - (x + wids) ); 
+	      if ( y <= spr.y ) { iyLow1 = parent.round( spr.y - y ); iyLow2 = 0;                        }
+	      else                    { iyLow1 = 0;                        iyLow2 = parent.round( y - spr.y ); }      
+	      if ( y + heis - 1 >= spr.y ) iyHigh1 = parent.round( parent.min( heis - 1, spr.y + spr.heis - 1 - y ) );
+	      else                                      iyHigh1 = parent.round( spr.y - (y + heis) );  
+	      // If there is any overlap between images:
+	      if (   ixHigh1 - ixLow1 > 0
+	          && iyHigh1 - iyLow1 > 0 ) {
+	          
+	          int ix2, iy2;
+	          
+	          iy2 = iyLow2 - 1;
+	          for ( int iy1 = iyLow1; iy1 <= iyHigh1; iy1++ ){
+	              
+	              iy2++;
+	                  
+	              ix2 = ixLow2 - 1;
+	              for ( int ix1 = ixLow1; ix1 <= ixHigh1; ix1++ ){
+	                  
+	                  ix2++;
+	                  
+	                  // If either alpha channel ( (hex >> 24) & 0xFF) of an overlapping pixel is larger than some low threshold:
+	                  Costume cost1 = (Costume) costumes.get(CostumeNumber());
+	                  Costume cost2 = (Costume) spr.costumes.get(spr.CostumeNumber());
+	                  cost1.img.loadPixels();
+	                  cost2.img.loadPixels();
+	                  if (   ( ( cost1.img.pixels[ ix1 + wids * iy1 ] >> 24 ) & 0xFF ) > 0 && ( ( cost2.img.pixels[ ix2 + spr.wids * iy2 ] >> 24 ) & 0xFF ) > 0 ) {
+	                      return true;
+	                  }
+	              }
+	          }
 	      }
-	      else return false;
-	    }
-	    else return false;
+	      
+	      return false;  
 	  }
 	  public boolean Touching(int val){ 
 	    if (val == Project.MOUSE){

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import processing.core.*;
 
 public class Stage {
-	public ArrayList backgrounds = new ArrayList();
+	public static ArrayList backgrounds = new ArrayList();
 	  int bckNo;
 	  static PApplet parent;
 	  public Stage(){
