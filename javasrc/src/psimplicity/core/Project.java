@@ -36,6 +36,14 @@ public class Project {
 	public final static float E = (float) Math.E;
 	public static Minim minim = new Minim(parent);
 	
+	/**
+	 * Stops the draw() function from running with Processing's noLoop() function.
+	 * The program can then be restarted with Processing's loop() if desired.
+	 * It doesn't prevent functions outside of draw() (e.g. keyPressed()) from 
+	 * running, nor does it close the window.
+	 * 
+	 * @see Exit()
+	 */
 	public static void Stop(){
 		parent.noLoop();
 	}
