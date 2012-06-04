@@ -8,8 +8,10 @@ import ddf.minim.*;
 
 import psimplicity.sound.*;
 
+import arb.soundcipher.*;
+
 public class Project {
-	private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L;
 	public static int MouseX,MouseY;
 	public static boolean asking;
 	public static int askcolour;
@@ -262,10 +264,10 @@ public class Project {
 	  }
 	}
 
-	public static ArrayList mics = new ArrayList();
-	public static ArrayList sprites = new ArrayList();
-	public static ArrayList stages = new ArrayList();
-	public static ArrayList sounds = new ArrayList();
+	public static ArrayList<Microphone> mics = new ArrayList<Microphone>();
+	public static ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+	public static ArrayList<Stage> stages = new ArrayList<Stage>();
+	public static ArrayList<Sound> sounds = new ArrayList<Sound>();
 
 	public static void SoundCleanse(){
 	  for (int i = 0; i<sounds.size(); i++){

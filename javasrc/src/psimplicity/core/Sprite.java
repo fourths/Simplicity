@@ -46,17 +46,17 @@ import processing.core.*;
 public class Sprite {
 	//SPRITE CLASS / MOST FUNCTIONS
 	static PApplet parent;
-	  private static boolean saying,thinking,hidden,draggable,pendown,waiting;
-	  private static String saystring;
-	  private static int wids,heis,typ,costNo,ssize,cureffect,penshade,layer;
-	  private static float x,y,effectamt,waitamt,wx,wy,wd,wh,ww,wc;
-	  private static int pencolor;
-	  private static float penhue=0;
-	  private static float pensat=360;
-	  private static float penbri=360;
-	  private static int pensize = 1;
-	  private static int direction = 90;
-	  private static ArrayList costumes = new ArrayList();
+	  private boolean saying,thinking,hidden,draggable,pendown,waiting;
+	  private String saystring;
+	  private int wids,heis,typ,costNo,ssize,cureffect,penshade,layer;
+	  private float x,y,effectamt,waitamt,wx,wy,wd,wh,ww,wc;
+	  private int pencolor;
+	  private float penhue=0;
+	  private float pensat=360;
+	  private float penbri=360;
+	  private int pensize = 1;
+	  private int direction = 90;
+	  private ArrayList<Costume> costumes = new ArrayList<Costume>();
 	  public Sprite (){
 		    x=0;
 		    y=0;
@@ -420,7 +420,7 @@ public class Sprite {
 	    costumes.add(new Costume(im)); 
 	  }
 	  
-	  public static int CostumeNumber(){
+	  public int CostumeNumber(){
 	    return costNo; 
 	  }
 	  
@@ -516,7 +516,7 @@ public class Sprite {
 	  //------SENSING--------------
 	  //---------------------------
 	  
-	  public static boolean Touching( Sprite spr /*PImage img1, PImage img2, PVector pos1, PVector pos2, int nAlphaThreshold*/ ) {
+	  public boolean Touching( Sprite spr /*PImage img1, PImage img2, PVector pos1, PVector pos2, int nAlphaThreshold*/ ) {
 	      // Find image indices of overlap between two image rectangles.
 	      // Indices are zero-based, from top-left corners:      
 	      int ixLow1,  ixLow2; 
@@ -709,7 +709,7 @@ public class Sprite {
 	  }
 
 	  private class Costume{
-	    public PImage img,cmask;
+		public PImage img,cmask;
 	    public int wids,heis;
 	    Costume (String cIm){
 	      img = parent.loadImage(cIm);
