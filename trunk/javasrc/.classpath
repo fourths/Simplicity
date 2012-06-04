@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="resources/minim/mp3spi1.9.4.jar"/>
 	<classpathentry kind="lib" path="resources/minim/tritonus_aos.jar"/>
 	<classpathentry kind="lib" path="resources/minim/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="resources/SoundCipher.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

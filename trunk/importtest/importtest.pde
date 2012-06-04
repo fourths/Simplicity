@@ -3,6 +3,7 @@ import ddf.minim.javasound.*;
 import psimplicity.sound.*;
 import psimplicity.core.*;
 
+//Minim minim = new Minim(this);
 Project project = new Project(this);
 Stage stage;
 Sprite froggy;
@@ -17,9 +18,10 @@ void setup(){
   froggy.SetPenColorTo(#FF0000);
   froggy.SetPenSizeTo(4);
   froggy.PenDown();
+  if (Project.minim != null) println("ok");
 }
 void draw(){
-  project.Update();
+  Project.Update();
 }
 void keyPressed(){
   if (Project.KeyPressed(UP)) froggy.ChangeYBy(5);
