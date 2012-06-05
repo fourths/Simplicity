@@ -37,6 +37,7 @@ public class Project {
 	}
 	public final static float E = (float) Math.E;
 	public static Minim minim = new Minim(parent);
+	public static SoundCipher sc = new SoundCipher(parent);
 	
 	/**
 	 * Stops the draw() function from running with Processing's noLoop() function.
@@ -353,5 +354,32 @@ public class Project {
 	  String folderpath = parent.selectFolder("Choose a folder to save to..."); 
 	  if (penarea != null && folderpath != null) parent.save(folderpath+"\\screen"+scimgs+".png");
 	}
-
+	
+	public static void PlayNoteForBeats(int note, float beats){
+		sc.playNote(note, 100, beats);
+	}
+	
+	public static void SetInstrument(int inst){
+		sc.instrument(inst);
+	}
+	
+	public static int Instrument(){
+		return (int) sc.instrument;
+	}
+	
+	public static void RestForBeats(int beats){
+		sc.playNote(0, 0, beats);
+	}
+	
+	public static void SetTempo(int tmpo){
+		sc.tempo(tmpo);
+	}
+	
+	public static void ChangeTempoBy(int amt){
+		sc.tempo(sc.tempo+amt);
+	}
+	
+	public static float Tempo(){
+		return (float) sc.tempo;
+	}
 }
