@@ -2,14 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry exported="true" kind="lib" path="resources/core.jar"/>
-	<classpathentry kind="lib" path="resources/minim/jl1.0.jar"/>
-	<classpathentry kind="lib" path="resources/minim/jsminim.jar"/>
-	<classpathentry kind="lib" path="resources/minim/minim-spi.jar"/>
-	<classpathentry kind="lib" path="resources/minim/minim.jar"/>
-	<classpathentry kind="lib" path="resources/minim/mp3spi1.9.4.jar"/>
-	<classpathentry kind="lib" path="resources/minim/tritonus_aos.jar"/>
-	<classpathentry kind="lib" path="resources/minim/tritonus_share.jar"/>
-	<classpathentry kind="lib" path="resources/SoundCipher.jar"/>
+	<classpathentry kind="lib" path="lib/minim/jl1.0.jar"/>
+	<classpathentry kind="lib" path="lib/minim/jsminim.jar"/>
+	<classpathentry kind="lib" path="lib/minim/minim-spi.jar"/>
+	<classpathentry kind="lib" path="lib/minim/minim.jar"/>
+	<classpathentry kind="lib" path="lib/minim/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/minim/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="lib/minim/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="lib/SoundCipher.jar"/>
+	<classpathentry kind="lib" path="resources/core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
