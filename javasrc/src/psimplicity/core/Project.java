@@ -8,10 +8,8 @@ import ddf.minim.*;
 
 import psimplicity.sound.*;
 
-import arb.soundcipher.*;
-
 public class Project {
-	//private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	public static int MouseX,MouseY;
 	public static boolean asking;
 	public static int askcolour;
@@ -37,16 +35,7 @@ public class Project {
 	}
 	public final static float E = (float) Math.E;
 	public static Minim minim = new Minim(parent);
-	public static SoundCipher sc = new SoundCipher(parent);
 	
-	/**
-	 * Stops the draw() function from running with Processing's noLoop() function.
-	 * The program can then be restarted with Processing's loop() if desired.
-	 * It doesn't prevent functions outside of draw() (e.g. keyPressed()) from 
-	 * running, nor does it close the window.
-	 * 
-	 * @see Exit()
-	 */
 	public static void Stop(){
 		parent.noLoop();
 	}
@@ -265,10 +254,10 @@ public class Project {
 	  }
 	}
 
-	public static ArrayList<Microphone> mics = new ArrayList<Microphone>();
-	public static ArrayList<Sprite> sprites = new ArrayList<Sprite>();
-	public static ArrayList<Stage> stages = new ArrayList<Stage>();
-	public static ArrayList<Sound> sounds = new ArrayList<Sound>();
+	public static ArrayList mics = new ArrayList();
+	public static ArrayList sprites = new ArrayList();
+	public static ArrayList stages = new ArrayList();
+	public static ArrayList sounds = new ArrayList();
 
 	public static void SoundCleanse(){
 	  for (int i = 0; i<sounds.size(); i++){
@@ -354,32 +343,5 @@ public class Project {
 	  String folderpath = parent.selectFolder("Choose a folder to save to..."); 
 	  if (penarea != null && folderpath != null) parent.save(folderpath+"\\screen"+scimgs+".png");
 	}
-	
-	public static void PlayNoteForBeats(int note, float beats){
-		sc.playNote(note, 100, beats);
-	}
-	
-	public static void SetInstrument(int inst){
-		sc.instrument(inst);
-	}
-	
-	public static int Instrument(){
-		return (int) sc.instrument;
-	}
-	
-	public static void RestForBeats(int beats){
-		sc.playNote(0, 0, beats);
-	}
-	
-	public static void SetTempo(int tmpo){
-		sc.tempo(tmpo);
-	}
-	
-	public static void ChangeTempoBy(int amt){
-		sc.tempo(sc.tempo+amt);
-	}
-	
-	public static float Tempo(){
-		return (float) sc.tempo;
-	}
+
 }
