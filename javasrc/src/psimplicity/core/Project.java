@@ -2,6 +2,8 @@ package psimplicity.core;
 
 import java.util.ArrayList;
 
+import arb.soundcipher.*;
+
 import processing.core.*;
 
 import ddf.minim.*;
@@ -9,6 +11,7 @@ import ddf.minim.*;
 import psimplicity.sound.*;
 
 public class Project {
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
 	public static int MouseX,MouseY;
 	public static boolean asking;
@@ -35,7 +38,15 @@ public class Project {
 	}
 	public final static float E = (float) Math.E;
 	public static Minim minim = new Minim(parent);
-	
+	public static SoundCipher sc = new SoundCipher(parent);
+	/**
+	 * Stops the draw() function from running with Processing's noLoop() function.
+	 * The program can then be restarted with Processing's loop() if desired.
+	 * It doesn't prevent functions outside of draw() (e.g. keyPressed()) from
+	 * running, nor does it close the window.
+	 *
+	 * @see Exit()
+	 */
 	public static void Stop(){
 		parent.noLoop();
 	}
@@ -45,63 +56,63 @@ public class Project {
 	}
 
 	public static float Sin(float val){
-	  return parent.degrees(parent.sin(val)); 
+	  return PApplet.degrees(PApplet.sin(val)); 
 	}
 	public static float Sin(int val){
-	  return parent.degrees(parent.sin(val)); 
+	  return PApplet.degrees(PApplet.sin(val)); 
 	}
 	public static float Sin(Variable val){
-	  return parent.degrees(parent.sin(val.toFloat())); 
+	  return PApplet.degrees(PApplet.sin(val.toFloat())); 
 	}
 
 	public static float Cos(float val){
-	  return parent.degrees(parent.cos(val)); 
+	  return PApplet.degrees(PApplet.cos(val)); 
 	}
 	public static float Cos(int val){
-	  return parent.degrees(parent.cos(val)); 
+	  return PApplet.degrees(PApplet.cos(val)); 
 	}
 	public static float Cos(Variable val){
-	  return parent.degrees(parent.cos(val.toFloat())); 
+	  return PApplet.degrees(PApplet.cos(val.toFloat())); 
 	}
 
 	public static float Tan(float val){
-	  return parent.degrees(parent.tan(val)); 
+	  return PApplet.degrees(PApplet.tan(val)); 
 	}
 	public static float Tan(int val){
-	  return parent.degrees(parent.tan(val)); 
+	  return PApplet.degrees(PApplet.tan(val)); 
 	}
 	public static float Tan(Variable val){
-	  return parent.degrees(parent.tan(val.toFloat())); 
+	  return PApplet.degrees(PApplet.tan(val.toFloat())); 
 	}
 
 	public static float Asin(float val){
-	  return parent.degrees(parent.asin(val)); 
+	  return PApplet.degrees(PApplet.asin(val)); 
 	}
 	public static float Asin(int val){
-	  return parent.degrees(parent.asin(val)); 
+	  return PApplet.degrees(PApplet.asin(val)); 
 	}
 	public static float Asin(Variable val){
-	  return parent.degrees(parent.asin(val.toFloat())); 
+	  return PApplet.degrees(PApplet.asin(val.toFloat())); 
 	}
 
 	public static float Acos(float val){
-	  return parent.degrees(parent.acos(val)); 
+	  return PApplet.degrees(PApplet.acos(val)); 
 	}
 	public static float Acos(int val){
-	  return parent.degrees(parent.acos(val)); 
+	  return PApplet.degrees(PApplet.acos(val)); 
 	}
 	public static float Acos(Variable val){
-	  return parent.degrees(parent.acos(val.toFloat())); 
+	  return PApplet.degrees(PApplet.acos(val.toFloat())); 
 	}
 
 	public static float Atan(float val){
-	  return parent.degrees(parent.atan(val)); 
+	  return PApplet.degrees(PApplet.atan(val)); 
 	}
 	public static float Atan(int val){
-	  return parent.degrees(parent.atan(val)); 
+	  return PApplet.degrees(PApplet.atan(val)); 
 	}
 	public static float Atan(Variable val){
-	  return parent.degrees(parent.atan(val.toFloat())); 
+	  return PApplet.degrees(PApplet.atan(val.toFloat())); 
 	}
 
 	public static float PickRandom(float low,float high){
@@ -133,13 +144,13 @@ public class Project {
 	}
 
 	public static int Round(int dec){
-	  return parent.round(dec);
+	  return PApplet.round(dec);
 	}
 	public static int Round(float dec){
-	  return parent.round(dec); 
+	  return PApplet.round(dec); 
 	}
 	public static int Round(Variable dec){
-	  return parent.round(dec.toFloat());  
+	  return PApplet.round(dec.toFloat());  
 	}
 
 	public static int LengthOf(int val){
@@ -196,30 +207,30 @@ public class Project {
 	public static boolean MouseDown(int btn){
 	  if (parent.mousePressed){
 	    if (btn == LEFTBTN){
-	      if (parent.mouseButton == parent.LEFT) return true;
+	      if (parent.mouseButton == PApplet.LEFT) return true;
 	      else return false; 
 	    }
 	    if (btn == RIGHTBTN){
-	      if (parent.mouseButton == parent.RIGHT) return true;
+	      if (parent.mouseButton == PApplet.RIGHT) return true;
 	      else return false; 
 	    }
 	    if (btn == CENTERBTN){
-	      if (parent.mouseButton == parent.CENTER) return true;
+	      if (parent.mouseButton == PApplet.CENTER) return true;
 	      else return false; 
 	    }
 	    else return false;
 	  }
 	  if (parent.mousePressed){
 	    if (btn == 1){
-	      if (parent.mouseButton == parent.LEFT) return true;
+	      if (parent.mouseButton == PApplet.LEFT) return true;
 	      else return false; 
 	    }
 	    if (btn == 2){
-	      if (parent.mouseButton == parent.RIGHT) return true;
+	      if (parent.mouseButton == PApplet.RIGHT) return true;
 	      else return false; 
 	    }
 	    if (btn == 3){
-	      if (parent.mouseButton == parent.CENTER) return true;
+	      if (parent.mouseButton == PApplet.CENTER) return true;
 	      else return false; 
 	    }
 	    else return false;
@@ -254,10 +265,10 @@ public class Project {
 	  }
 	}
 
-	public static ArrayList mics = new ArrayList();
-	public static ArrayList sprites = new ArrayList();
-	public static ArrayList stages = new ArrayList();
-	public static ArrayList sounds = new ArrayList();
+	public static ArrayList<Microphone> mics = new ArrayList<Microphone>();
+	public static ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+	public static ArrayList<Stage> stages = new ArrayList<Stage>();
+	public static ArrayList<Sound> sounds = new ArrayList<Sound>();
 
 	public static void SoundCleanse(){
 	  for (int i = 0; i<sounds.size(); i++){
@@ -272,16 +283,16 @@ public class Project {
 	}
 
 	public static void keyTyped(){
-	  if (parent.key == parent.ENTER || parent.key == parent.RETURN){
+	  if (parent.key == PApplet.ENTER || parent.key == PApplet.RETURN){
 	    finalResponse = response.toString();
 	    asking = false; 
 	  }
-	  else if (parent.key == parent.BACKSPACE || parent.key == parent.DELETE){
+	  else if (parent.key == PApplet.BACKSPACE || parent.key == PApplet.DELETE){
 	    if (response.value.length()>=1){
 	      response.value.deleteCharAt(response.value.length()-1); 
 	    }
 	  }
-	  else if (response.value.length()<34 && parent.key != parent.SHIFT && parent.key != parent.CODED && parent.key != parent.ALT && parent.key != parent.CONTROL && parent.key != parent.ESC && parent.key != parent.TAB) response.value.append(parent.key); 
+	  else if (response.value.length()<34 && parent.key != PApplet.SHIFT && parent.key != PApplet.CODED && parent.key != PApplet.ALT && parent.key != PApplet.CONTROL && parent.key != PApplet.ESC && parent.key != PApplet.TAB) response.value.append(parent.key); 
 	}
 
 	public static void Ask(String val){
@@ -322,7 +333,7 @@ public class Project {
 	}
 
 	public static void Clear(){
-	  penarea = parent.createGraphics(parent.width,parent.height,parent.P2D); 
+	  penarea = parent.createGraphics(parent.width,parent.height,PApplet.P2D); 
 	}
 
 	public static void Update(){
@@ -343,5 +354,32 @@ public class Project {
 	  String folderpath = parent.selectFolder("Choose a folder to save to..."); 
 	  if (penarea != null && folderpath != null) parent.save(folderpath+"\\screen"+scimgs+".png");
 	}
+	
+    public static void PlayNoteForBeats(int note, float beats){
+        sc.playNote(note, 100, beats);
+    }
 
+	public static void SetInstrument(int inst){
+	        sc.instrument(inst);
+	}
+	
+	public static int Instrument(){
+	        return (int) sc.instrument;
+	}
+	
+	public static void RestForBeats(int beats){
+	        sc.playNote(0, 0, beats);
+	}
+	
+	public static void SetTempo(int tmpo){
+	        sc.tempo(tmpo);
+	}
+	
+	public static void ChangeTempoBy(int amt){
+	        sc.tempo(sc.tempo+amt);
+	}
+	
+	public static float Tempo(){
+	        return (float) sc.tempo;
+	}	
 }

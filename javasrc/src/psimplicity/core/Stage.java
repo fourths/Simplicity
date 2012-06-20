@@ -4,31 +4,31 @@ import java.util.ArrayList;
 import processing.core.*;
 
 public class Stage {
-	public ArrayList backgrounds = new ArrayList();
+	public ArrayList<Background> backgrounds = new ArrayList<Background>();
 	  int bckNo;
 	  static PApplet parent;
 	  public Stage(){
 		parent = Project.parent;
-	    Project.penarea = parent.createGraphics(parent.width,parent.height,parent.P2D);
+	    Project.penarea = parent.createGraphics(parent.width,parent.height,PApplet.JAVA2D);
 	    backgrounds.add(new Background(0xFFFFFF)); 
 	    Project.stages.add(this);
 	  }
 	  public Stage(String im){
 		parent = Project.parent;
-	    Project.penarea = parent.createGraphics(parent.width,parent.height,parent.P2D);
+	    Project.penarea = parent.createGraphics(parent.width,parent.height,PApplet.JAVA2D);
 	    backgrounds.add(new Background(im));
 	    Project.stages.add(this);
 	  }
 	  public Stage(int clr){
 		parent = Project.parent;
-	    Project.penarea = parent.createGraphics(parent.width,parent.height,parent.P2D);
+	    Project.penarea = parent.createGraphics(parent.width,parent.height,PApplet.JAVA2D);
 	    backgrounds.add(new Background(clr)); 
 	    Project.stages.add(this);
 	  }
 	  
 	  public void update(){
 		  parent.translate(parent.width/2,parent.height/2);
-	    parent.imageMode(parent.CENTER);
+	    parent.imageMode(PApplet.CENTER);
 	    Background bck = (Background) backgrounds.get(BackgroundNumber());
 	    if (bck.img != null && bck.img.width == parent.width && bck.img.height == parent.height) parent.background(bck.img);
 	    else parent.background(bck.colour);
@@ -44,7 +44,7 @@ public class Stage {
 	    	parent.rect((-parent.width/2)+10,parent.height/2-30,parent.width-20,20);
 	    	parent.stroke(0);
 	    	parent.strokeWeight(3);
-	    	parent.strokeJoin(parent.ROUND);
+	    	parent.strokeJoin(PApplet.ROUND);
 	    	parent.fill(Project.askcolour);
 	    	parent.text(Project.askstring,(-parent.width/2)+10,parent.height/2-32);
 	    	parent.fill(0);

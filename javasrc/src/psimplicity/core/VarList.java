@@ -127,7 +127,6 @@ public class VarList{
 	  }
 	  public boolean Contains(Variable val){
 	    for (int i=0; i<values.size(); i++){
-	      Variable tvar = (Variable) values.get(i);
 	      if ((Variable) values.get(i) == val){
 	        return true;
 	      }

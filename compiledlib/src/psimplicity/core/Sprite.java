@@ -1,62 +1,37 @@
-/**
- * ##library.name##
- * ##library.sentence##
- * ##library.url##
- *
- * Copyright ##copyright## ##author##
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General
- * Public License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- * Boston, MA  02111-1307  USA
- * 
- * @author      ##author##
- * @modified    ##date##
- * @version     ##library.prettyVersion## (##library.version##)
- */
-
 package psimplicity.core;
 
 
 import java.util.ArrayList;
 import processing.core.*;
 
-/**
- * This is a template class and can be used to start a new processing library or tool.
- * Make sure you rename this class as well as the name of the example package 'template' 
- * to your own library or tool naming convention.
- * 
- * @example Hello 
- * 
- * (the tag @example followed by the name of an example included in folder 'examples' will
- * automatically include the example in the javadoc.)
- *
- */
-
 public class Sprite {
 	//SPRITE CLASS / MOST FUNCTIONS
 	static PApplet parent;
-	  private boolean saying,thinking,hidden,draggable,pendown,waiting;
+	  private boolean saying,thinking,hidden,/*can drag,*/pendown,waiting;
 	  private String saystring;
-	  private int wids,heis,typ,costNo,ssize,cureffect,penshade,layer;
+	  private int wids,heis,typ,costNo,ssize,cureffect,/*pen shade,*/layer;
 	  private float x,y,effectamt,waitamt,wx,wy,wd,wh,ww,wc;
-	  private int pencolor;
+	  //private int pencolor;
 	  private float penhue=0;
 	  private float pensat=360;
 	  private float penbri=360;
 	  private int pensize = 1;
 	  private int direction = 90;
-	  private ArrayList costumes = new ArrayList();
+	  private ArrayList<Costume> costumes = new ArrayList<Costume>();
+      public Sprite (){
+          x=0;
+          y=0;
+          costNo=0;
+          typ=2;
+          ssize=100;
+          Project.sprites.add(this);
+          layer=Project.sprites.size()-1;
+          parent = Project.parent;
+          costumes.add(new Costume("http://www.majhost.com/gallery/veggieman/scans/frog.png"));
+          Costume cost = (Costume) costumes.get(costNo);
+          wids=cost.wids;
+          heis=cost.heis;
+      }
 	  public Sprite (int xx, int yy, int wid, int hei){
 	    x=xx;
 	    y=yy;
@@ -78,9 +53,8 @@ public class Sprite {
 	    Project.sprites.add(this);
 	    layer=Project.sprites.size()-1;
 	    parent = Project.parent;
-	    //parent.println("test");
 	    costumes.add(new Costume(im));
-	    Costume cost = (Costume) costumes.get(0);
+	    Costume cost = (Costume) costumes.get(costNo);
 	    wids=cost.wids;
 	    heis=cost.heis;
 	  }
@@ -91,7 +65,7 @@ public class Sprite {
 	        parent.fill(255);
 	        parent.pushMatrix();
 	        parent.translate(x,y);
-	        parent.rotate(parent.radians(direction-90));
+	        parent.rotate(PApplet.radians(direction-90));
 	        parent.translate(-x,-y);
 	        //draw rectangle at given coordinates with set heis/wids
 	        parent.rect(x,y,wids,heis);
@@ -103,10 +77,10 @@ public class Sprite {
 	        heis = cost.img.height + (heis - cost.img.height);
 	        parent.pushMatrix();
 	        parent.translate(x,y);
-	        parent.rotate(parent.radians(direction-90));
+	        parent.rotate(PApplet.radians(direction-90));
 	        parent.translate(-x,-y);  
-	        if (effectamt!=-87 && (cureffect != parent.INVERT && cureffect != parent.GRAY)) cost.img.filter(cureffect,effectamt);
-	        else if (cureffect != parent.POSTERIZE && cureffect != parent.ERODE && cureffect != parent.DILATE) cost.img.filter(cureffect);
+	        if (effectamt!=-87 && (cureffect != PApplet.INVERT && cureffect != PApplet.GRAY)) cost.img.filter(cureffect,effectamt);
+	        else if (cureffect != PApplet.POSTERIZE && cureffect != PApplet.ERODE && cureffect != PApplet.DILATE) cost.img.filter(cureffect);
 	        parent.image(cost.img,x,y,wids,heis);
 	        parent.popMatrix();
 	        //image(cost.cmask,0,0);
@@ -115,11 +89,12 @@ public class Sprite {
 	    	Project.penarea.beginDraw();
 	    	Project.penarea.smooth();  
 	        Project.penarea.translate(parent.width/2,parent.height/2);
-	        parent.colorMode(parent.HSB,200);
+	        parent.colorMode(PApplet.HSB,200);
 	        penhue = (penhue > 360) ? 0 : penhue;
 	        penbri = (penbri > 360) ? 0 : penbri;
 	        Project.penarea.fill(parent.color(penhue*200/360,pensat,penbri*200/360));
 	        Project.penarea.stroke(parent.color(penhue*200/360,pensat,penbri*200/360));
+	        Project.penarea.ellipse(x,y,pensize,pensize);
 	        Project.penarea.ellipse(x,y,pensize,pensize);
 	        Project.penarea.endDraw(); 
 	      }      
@@ -144,7 +119,7 @@ public class Sprite {
 	        parent.fill(255);
 	        parent.pushMatrix();
 	        parent.translate(wx,wy);
-	        parent.rotate(parent.radians(wd-90));
+	        parent.rotate(PApplet.radians(wd-90));
 	        parent.translate(-wx,-wy);
 	        //draw rectangle at given coordinates with set heis/wids
 	        parent.rect(wx,wy,ww,wh);
@@ -156,10 +131,10 @@ public class Sprite {
 	        heis = cost.img.height + ((int) wh - cost.img.height);
 	        parent.pushMatrix();
 	        parent.translate(wx,wy);
-	        parent.rotate(parent.radians(wd-90));
+	        parent.rotate(PApplet.radians(wd-90));
 	        parent.translate(-wx,-wy);  
-	        if (effectamt!=-87 && (cureffect != parent.INVERT && cureffect != parent.GRAY)) cost.img.filter(cureffect,effectamt);
-	        else if (cureffect != parent.POSTERIZE && cureffect != parent.ERODE && cureffect != parent.DILATE) cost.img.filter(cureffect);
+	        if (effectamt!=-87 && (cureffect != PApplet.INVERT && cureffect != PApplet.GRAY)) cost.img.filter(cureffect,effectamt);
+	        else if (cureffect != PApplet.POSTERIZE && cureffect != PApplet.ERODE && cureffect != PApplet.DILATE) cost.img.filter(cureffect);
 	        parent.image(cost.img,wx,wy,ww,wh);
 	        parent.popMatrix();
 	        //image(cost.cmask,0,0);
@@ -349,8 +324,8 @@ public class Sprite {
 	      else PointInDirection(270);
 	    }
 	    else{
-	      if (deltay<0) PointInDirection((180-(parent.degrees(parent.atan(parent.radians(deltax)/parent.radians(deltay))))));
-	      else PointInDirection(-(parent.degrees(parent.atan(parent.radians(deltax)/parent.radians(deltay)))));
+	      if (deltay<0) PointInDirection((180-(PApplet.degrees(PApplet.atan(PApplet.radians(deltax)/PApplet.radians(deltay))))));
+	      else PointInDirection(-(PApplet.degrees(PApplet.atan(PApplet.radians(deltax)/PApplet.radians(deltay)))));
 	    }
 	  }
 	  
@@ -462,7 +437,7 @@ public class Sprite {
 	  
 	  public void ChangeEffectBy(int amt){
 	    if (effectamt != -87) effectamt += amt;
-	    if (effectamt<2 && cureffect == parent.THRESHOLD) effectamt = 2;
+	    if (effectamt<2 && cureffect == PApplet.THRESHOLD) effectamt = 2;
 	  }
 	  
 	  public void GoToFront(){
@@ -473,23 +448,23 @@ public class Sprite {
 	  
 	  public void GoBackLayers(int amt){
 		  Project.sprites.remove(layer);
-	    layer = parent.constrain(layer-amt,0,Project.sprites.size()-1);
+	    layer = PApplet.constrain(layer-amt,0,Project.sprites.size()-1);
 	    Project.sprites.add(layer,this);
 	  }
 	  public void GoBackLayers(Variable amt){
 		  Project.sprites.remove(layer);
-	    layer = parent.constrain(layer-amt.toInt(),0,Project.sprites.size()-1);
+	    layer = PApplet.constrain(layer-amt.toInt(),0,Project.sprites.size()-1);
 	    Project.sprites.add(layer,this);
 	  }
 	  
 	  public void SetLayerTo(int amt){
 		  Project.sprites.remove(layer);
-	    layer = parent.constrain(amt,0,Project.sprites.size()-1);
+	    layer = PApplet.constrain(amt,0,Project.sprites.size()-1);
 	    Project.sprites.add(layer,this);
 	  }
 	  public void SetLayerTo(Variable amt){
 		  Project.sprites.remove(layer);
-	    layer = parent.constrain(amt.toInt(),0,Project.sprites.size()-1);
+	    layer = PApplet.constrain(amt.toInt(),0,Project.sprites.size()-1);
 	    Project.sprites.add(layer,this);
 	  }
 	  
@@ -501,21 +476,44 @@ public class Sprite {
 	  //------SENSING--------------
 	  //---------------------------
 	  
-	  public boolean Touching(Sprite spr){
-	    if ((x-(wids/2)>=spr.x-(spr.wids/2) && y-(heis/2)>=spr.y-(spr.heis/2)) || (x+wids/2>=spr.x-(spr.wids/2) && y+heis/2>=spr.y-(spr.heis/2))){
-	      if (x-(wids/2)<=spr.x+(spr.wids/2) && y-(wids/2)<=spr.y+(spr.heis/2)){
-	        if ((x+wids/2)>=spr.x-spr.wids/2 && (y+heis/2)>=spr.y-spr.heis/2){
-	          return true; 
-	        }
-	        if ((x+wids/2<=spr.x+spr.wids/2) && (y+wids/2<=spr.y+spr.heis/2)){
-	          return true;
-	        }
-	        else return false;
-	      }
-	      else return false;
-	    }
-	    else return false;
-	  }
+      public boolean Touching( Sprite spr /*PImage img1, PImage img2, PVector pos1, PVector pos2, int nAlphaThreshold*/ ) {
+          // Find image indices of overlap between two image rectangles.
+          // Indices are zero-based, from top-left corners:      
+          int ixLow1,  ixLow2; 
+          int iyLow1,  iyLow2; 
+          int ixHigh1/*, ixHigh2*/; 
+          int iyHigh1/*, iyHigh2*/;           
+          if ( x <= spr.x ) { ixLow1 = PApplet.round( spr.x - x ); ixLow2 = 0;                        }
+          else                    { ixLow1 = 0;                        ixLow2 = PApplet.round( x - spr.x ); }      
+          if ( x + wids - 1 >= spr.x ) ixHigh1 = PApplet.round( PApplet.min( wids - 1, spr.x + spr.wids - 1 - x ) );
+          else                                     ixHigh1 = PApplet.round( spr.x - (x + wids) ); 
+          if ( y <= spr.y ) { iyLow1 = PApplet.round( spr.y - y ); iyLow2 = 0;                        }
+          else                    { iyLow1 = 0;                        iyLow2 = PApplet.round( y - spr.y ); }      
+          if ( y + heis - 1 >= spr.y ) iyHigh1 = PApplet.round( PApplet.min( heis - 1, spr.y + spr.heis - 1 - y ) );
+          else                                      iyHigh1 = PApplet.round( spr.y - (y + heis) );  
+          // If there is any overlap between images:
+          if (   ixHigh1 - ixLow1 > 0
+              && iyHigh1 - iyLow1 > 0 ) {
+              int ix2, iy2;
+              iy2 = iyLow2 - 1;
+              for ( int iy1 = iyLow1; iy1 <= iyHigh1; iy1++ ){
+                  iy2++;
+                  ix2 = ixLow2 - 1;
+                  for ( int ix1 = ixLow1; ix1 <= ixHigh1; ix1++ ){
+                      ix2++;
+                      // If either alpha channel ( (hex >> 24) & 0xFF) of an overlapping pixel is larger than some low threshold:
+                      Costume cost1 = (Costume) costumes.get(CostumeNumber());
+                      Costume cost2 = (Costume) spr.costumes.get(spr.CostumeNumber());
+                      cost1.img.loadPixels();
+                      cost2.img.loadPixels();
+                      if (   ( ( cost1.img.pixels[ ix1 + wids * iy1 ] >> 24 ) & 0xFF ) > 0 && ( ( cost2.img.pixels[ ix2 + spr.wids * iy2 ] >> 24 ) & 0xFF ) > 0 ) {
+                          return true;
+                      }
+                  }
+              }
+          }  
+          return false;  
+      }
 	  public boolean Touching(int val){ 
 	    if (val == Project.MOUSE){
 	       if (Project.MouseX>=x-wids/2 && Project.MouseY>=y-heis/2 && Project.MouseX<=x+wids/2 && Project.MouseY<=y+heis/2){
@@ -557,7 +555,7 @@ public class Sprite {
 	  }
 	  
 	  public float Distance(Sprite spr){
-	    return parent.dist(x,y,spr.x,spr.y);
+	    return PApplet.dist(x,y,spr.x,spr.y);
 	  }
 	  
 	  public int MouseX(){
@@ -656,7 +654,7 @@ public class Sprite {
 	    Costume cost = (Costume) costumes.get(CostumeNumber());
 	    Project.penarea.beginDraw();
 	    Project.penarea.pushMatrix();
-	    Project.penarea.imageMode(parent.CENTER);
+	    Project.penarea.imageMode(PApplet.CENTER);
 	    Project.penarea.translate(parent.width/2,parent.height/2);
 	    Project.penarea.image(cost.img,(int) x,(int) y);
 	    Project.penarea.popMatrix();
@@ -664,7 +662,7 @@ public class Sprite {
 	  }
 
 	  private class Costume{
-	    public PImage img,cmask;
+	    public PImage img/*,cmask*/;
 	    public int wids,heis;
 	    Costume (String cIm){
 	      img = parent.loadImage(cIm);

@@ -1,29 +1,29 @@
 package psimplicity.core;
 import java.util.ArrayList;
 
-public class List{
-	  public ArrayList values;
+public class VarList{
+	  public ArrayList<Variable> values;
 	  //CONSTRUCTORS
-	  public List(){
-	    values = new ArrayList();
+	  public VarList(){
+	    values = new ArrayList<Variable>();
 	  }
-	  public List(int ival){
-	    values = new ArrayList();
+	  public VarList(int ival){
+	    values = new ArrayList<Variable>();
 	    Variable tvar = new Variable(ival);
 	    values.add(tvar);
 	  }
-	  public List(float ival){
-	    values = new ArrayList(); 
+	  public VarList(float ival){
+	    values = new ArrayList<Variable>(); 
 	    Variable tvar = new Variable(ival);
 	    values.add(tvar);
 	  }
-	  public List(String ival){
-	    values = new ArrayList();
+	  public VarList(String ival){
+	    values = new ArrayList<Variable>();
 	    Variable tvar = new Variable(ival);
 	    values.add(tvar);
 	  }
-	  public List(Variable ival){
-	    values = new ArrayList(); 
+	  public VarList(Variable ival){
+	    values = new ArrayList<Variable>(); 
 	    values.add(ival);
 	  }
 	  
@@ -127,7 +127,6 @@ public class List{
 	  }
 	  public boolean Contains(Variable val){
 	    for (int i=0; i<values.size(); i++){
-	      Variable tvar = (Variable) values.get(i);
 	      if ((Variable) values.get(i) == val){
 	        return true;
 	      }

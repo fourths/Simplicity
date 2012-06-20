@@ -3,7 +3,7 @@ import psimplicity.core.*;
 import ddf.minim.*;
 
 public class Sound {
-	public static AudioPlayer player;
+	public AudioPlayer player;
 	  public Sound(String sndlnk){
 		  try{
 	    player = Project.minim.loadFile(sndlnk);
@@ -18,17 +18,17 @@ public class Sound {
 	    Project.sounds.add(this);
 	  }
 	  
-	  public static float Volume(){
+	  public float Volume(){
 	    return player.getGain();
 	  }
 	  
-	  public static void SetVolumeTo(int val){
+	  public void SetVolumeTo(int val){
 	    player.setGain(val);
 	  }
-	  public static void SetVolumeTo(float val){
+	  public void SetVolumeTo(float val){
 	    player.setGain(val);
 	  }
-	  public static void SetVolumeTo(Variable val){
+	  public void SetVolumeTo(Variable val){
 	    player.setGain(Float.parseFloat(val.value.toString()));
 	  }
 	  
