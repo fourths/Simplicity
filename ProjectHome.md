@@ -1,0 +1,3 @@
+Simplicity is a library for/written in Processing designed to emulate Scratch's blocks and datatypes as functions and classes, for ease of transition to coding.
+
+It is currently not in active development due to the fact that the lead developer is working on other projects, there was little-to-none assistance by others, and had hit a roadblock, but people are welcome to help and the lead developer will work on it as well.
